@@ -1,5 +1,5 @@
 import reflex as rx
-from ..navigation import routes
+from ..states import routes
 from .. import styles
 from ..template.base import create_page
 

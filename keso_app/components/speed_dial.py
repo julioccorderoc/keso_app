@@ -97,7 +97,7 @@ def render_speed_dial() -> rx.Component:
     return rx.box(
         speed_dial_menu(),
         position="fixed",  # Changed to fixed to stay in viewport
-        bottom="2em",
-        right="2em",
+        bottom="1.5em",
+        right="1.5em",
         z_index="1000",
     )

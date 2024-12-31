@@ -1,6 +1,6 @@
 import reflex as rx
 from .. import styles
-from ..navigation import routes
+from ..states import routes
 
 def sidebar_item(text: str, 
                  icon: str, 
