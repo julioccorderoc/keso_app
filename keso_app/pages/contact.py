@@ -3,8 +3,8 @@ from ..navigation import routes
 from .. import styles
 from ..template.base import create_page
 
-@create_page(route=routes.PRODUCTION_ROUTE, title="Producción")
-def production():
+@create_page(route=routes.CONTACT_ROUTE, title="Contacto")
+def contact():
     return rx.vstack(
         rx.heading("Mi Contenido"),
         rx.text("Algo de contenido..."),
