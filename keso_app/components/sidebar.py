@@ -27,7 +27,6 @@ def sidebar_item(
         width="100%",
     )
 
-
 def sidebar_items() -> rx.Component:
     return rx.vstack(
         sidebar_item("Resumen", "layout-dashboard", routes.HOME_ROUTE),
@@ -101,169 +100,87 @@ def sidebar_profile_settings() -> rx.Component:
     )
 
 
+def sidebar_desktop() -> rx.Component:
+    return rx.vstack(
+        rx.hstack(
+            rx.image(
+                src="/logo.jpg",
+                width="2.25em",
+                height="auto",
+                border_radius="25%",
+            ),
+            rx.heading(
+                "Keso", size="7", weight="bold"
+            ),
+            align="center",
+            justify="start",
+            padding_x="0.5rem",
+            width="100%",
+        ),
+        sidebar_items(),
+        rx.spacer(),
+        rx.vstack(
+            sidebar_profile_settings(),
+            rx.divider(),
+            sidebar_bottom(),
+            width="100%",
+            spacing="5",
+        ),
+        spacing="5",
+        padding_x="1em",
+        padding_y="1.5em",
+        bg=rx.color("accent", 3),
+        align="start",
+        height="100dvh",
+        width="16em",
+    )
+
+def sidebar_mobile() -> rx.Component:
+    return rx.drawer.root(
+        rx.drawer.trigger(
+            rx.icon("align-justify", size=30)
+        ),
+        rx.drawer.overlay(z_index="5"),
+        rx.drawer.portal(
+            rx.drawer.content(
+                rx.vstack(
+                    rx.box(
+                        rx.drawer.close(
+                            rx.icon("x", size=30)
+                        ),
+                        width="100%",
+                    ),
+                    sidebar_items(),
+                    rx.spacer(),
+                    rx.vstack(
+                        sidebar_profile_settings(),
+                        rx.divider(margin="0"),
+                        sidebar_bottom(),
+                        width="100%",
+                        spacing="5",
+                    ),
+                    spacing="5",
+                    width="100%",
+                ),
+                top="auto",
+                right="auto",
+                height="100%",
+                width="20em",
+                padding="1.5em",
+                bg=rx.color("accent", 2),
+            ),
+            width="100%",
+        ),
+        direction="left",
+    )
+
 def sidebar() -> rx.Component:
     return rx.box(
         rx.desktop_only(
-            rx.vstack(
-                rx.hstack(
-                    rx.image(
-                        src="/logo.jpg",
-                        width="2.25em",
-                        height="auto",
-                        border_radius="25%",
-                    ),
-                    rx.heading(
-                        "Keso", size="7", weight="bold"
-                    ),
-                    align="center",
-                    justify="start",
-                    padding_x="0.5rem",
-                    width="100%",
-                ),
-                sidebar_items(),
-                rx.spacer(),
-                rx.vstack(
-                    # rx.vstack(
-                    #     sidebar_item(
-                    #         "Configuración", "settings", routes.SETTINGS_ROUTE
-                    #     ),
-                    #     sidebar_item(
-                    #         "Salir", "log-out", "/#"
-                    #     ),
-                    #     spacing="1",
-                    #     width="100%",
-                    # ),
-
-                    # rx.hstack(
-                    #     rx.icon_button(
-                    #         rx.icon("user"),
-                    #         size="3",
-                    #         radius="full",
-                    #     ),
-                    #     rx.vstack(
-                    #         rx.box(
-                    #             rx.text(
-                    #                 "My account",
-                    #                 size="3",
-                    #                 weight="bold",
-                    #             ),
-                    #             rx.text(
-                    #                 "user@reflex.dev",
-                    #                 size="2",
-                    #                 weight="medium",
-                    #             ),
-                    #             width="100%",
-                    #         ),
-                    #         spacing="0",
-                    #         align="start",
-                    #         justify="start",
-                    #         width="100%",
-                    #     ),
-                    #     padding_x="0.5rem",
-                    #     align="center",
-                    #     justify="start",
-                    #     width="100%",
-                    # ),
-                    sidebar_profile_settings(),
-                    rx.divider(),
-                    sidebar_bottom(),
-                    width="100%",
-                    spacing="5",
-                ),
-                spacing="5",
-                # position="fixed",
-                # left="0px",
-                # top="0px",
-                # z_index="5",
-                padding_x="1em",
-                padding_y="1.5em",
-                bg=rx.color("accent", 3),
-                align="start",
-                # height="100%",
-                height="100dvh",
-                width="16em",
-            ),
+            sidebar_desktop()
         ),
-        # RESPONSIVENESS
         rx.mobile_and_tablet(
-            rx.drawer.root(
-                rx.drawer.trigger(
-                    rx.icon("align-justify", size=30)
-                ),
-                rx.drawer.overlay(z_index="5"),
-                rx.drawer.portal(
-                    rx.drawer.content(
-                        rx.vstack(
-                            rx.box(
-                                rx.drawer.close(
-                                    rx.icon("x", size=30)
-                                ),
-                                width="100%",
-                            ),
-                            sidebar_items(),
-                            rx.spacer(),
-                            rx.vstack(
-                                rx.vstack(
-                                    sidebar_item(
-                                        "Configuración",
-                                        "settings",
-                                        routes.SETTINGS_ROUTE,
-                                    ),
-                                    sidebar_item(
-                                        "Salir",
-                                        "log-out",
-                                        "/#",
-                                    ),
-                                    width="100%",
-                                    spacing="1",
-                                ),
-                                rx.divider(margin="0"),
-                                rx.hstack(
-                                    rx.icon_button(
-                                        rx.icon("user"),
-                                        size="3",
-                                        radius="full",
-                                    ),
-                                    rx.vstack(
-                                        rx.box(
-                                            rx.text(
-                                                "My account",
-                                                size="3",
-                                                weight="bold",
-                                            ),
-                                            rx.text(
-                                                "user@reflex.dev",
-                                                size="2",
-                                                weight="medium",
-                                            ),
-                                            width="100%",
-                                        ),
-                                        spacing="0",
-                                        justify="start",
-                                        width="100%",
-                                    ),
-                                    padding_x="0.5rem",
-                                    align="center",
-                                    justify="start",
-                                    width="100%",
-                                ),
-                                width="100%",
-                                spacing="5",
-                            ),
-                            spacing="5",
-                            width="100%",
-                        ),
-                        top="auto",
-                        right="auto",
-                        height="100%",
-                        width="20em",
-                        padding="1.5em",
-                        bg=rx.color("accent", 2),
-                    ),
-                    width="100%",
-                ),
-                direction="left",
-            ),
+            sidebar_mobile(),
             padding="1em",
         ),
     )
