@@ -2,9 +2,9 @@ import reflex as rx
 from .. import styles
 from ..navigation import routes
 
-def sidebar_item(
-    text: str, icon: str, href: str
-) -> rx.Component:
+def sidebar_item(text: str, 
+                 icon: str, 
+                 href: str) -> rx.Component:
     return rx.link(
         rx.hstack(
             rx.icon(icon),
@@ -27,28 +27,57 @@ def sidebar_item(
         width="100%",
     )
 
-def sidebar_items() -> rx.Component:
-    return rx.vstack(
-        sidebar_item("Resumen", "layout-dashboard", routes.HOME_ROUTE),
-        sidebar_item("Producción", "milk", routes.PRODUCTION_ROUTE),
-        sidebar_item("Ganado", "paw-print", routes.CATTLE_ROUTE),
-        sidebar_item("Transacciones", "clipboard-pen-line", routes.TRANSACTIONS_ROUTE),
-        sidebar_item("Registros", "notebook-tabs", routes.SYSTEM_LOGS_ROUTE),
-        spacing="1",
-        width="100%",
+def icon_link(icon: str, 
+              href: str) -> rx.Component:
+    return rx.link(
+        rx.icon_button(
+            rx.icon(icon),
+            size="2",
+            variant="ghost",
+            color_scheme="gray",
+        ),
+        href=href
+    )
+
+def account(fullname: str,
+            username: str) -> rx.Component:
+    return rx.hstack(
+        rx.icon_button(
+            rx.icon("user"),
+            size="3",
+            radius="full",
+        ),
+        rx.vstack(
+            rx.box(
+                rx.text(
+                    fullname,
+                    size="3",
+                    weight="bold",
+                ),
+                rx.text(
+                    username,
+                    size="2",
+                    weight="medium",
+                ),
+                width="100%",
+            ),
+            spacing="0",
+            justify="start",
+            width="100%",
+        )
     )
 
 def sidebar_bottom() -> rx.Component:
     return rx.hstack(
         rx.link(
             rx.text("Ayuda", size="3"),
-            href="https://reflex.dev/docs/getting-started/introduction/",
+            href=routes.HELP_ROUTE,
             color_scheme="gray",
             underline="none",
         ),
         rx.link(
             rx.text("Contacto", size="3"),
-            href="https://reflex.dev/blog/",
+            href=routes.CONTACT_ROUTE,
             color_scheme="gray",
             underline="none",
         ),
@@ -63,48 +92,37 @@ def sidebar_bottom() -> rx.Component:
 def sidebar_profile_settings() -> rx.Component:
     return rx.vstack(
         rx.hstack(
-            rx.icon_button(
-                rx.icon("user"),
-                size="3",
-                radius="full",
-            ),
-            rx.vstack(
-                rx.box(
-                    rx.text(
-                        "My account",
-                        size="3",
-                        weight="bold",
-                    ),
-                    rx.text(
-                        "user@reflex.dev",
-                        size="2",
-                        weight="medium",
-                    ),
-                    width="100%",
+            account(
+                "My account", 
+                "user@reflex.dev"
                 ),
-                spacing="0",
-                justify="start",
-                width="100%",
-            ),
             rx.spacer(),
-            rx.icon_button(
-                rx.icon("settings"),
-                size="2",
-                variant="ghost",
-                color_scheme="gray",
-            ),
+            icon_link(
+                "settings", 
+                routes.SETTINGS_ROUTE
+                ),
             padding_x="0.5rem",
             align="center",
             width="100%",
         )
     )
 
+def sidebar_items() -> rx.Component:
+    return rx.vstack(
+        sidebar_item("Resumen", "layout-dashboard", routes.HOME_ROUTE),
+        sidebar_item("Producción", "milk", routes.PRODUCTION_ROUTE),
+        sidebar_item("Ganado", "paw-print", routes.CATTLE_ROUTE),
+        sidebar_item("Transacciones", "clipboard-pen-line", routes.TRANSACTIONS_ROUTE),
+        sidebar_item("Registros", "notebook-tabs", routes.SYSTEM_LOGS_ROUTE),
+        spacing="1",
+        width="100%",
+    )
 
 def sidebar_desktop() -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.image(
-                src="/logo.jpg",
+                src="/logo.svg",
                 width="2.25em",
                 height="auto",
                 border_radius="25%",
