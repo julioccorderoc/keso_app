@@ -1,0 +1,7 @@
+*.py[cod]
+__pycache__/
+*.db
+assets/external/
+.web
+.venv/
+.cursorrules
