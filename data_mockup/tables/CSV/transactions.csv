@@ -1,0 +1,31 @@
+transaction_id;date;transaction_type;description;amount;comments
+660;2024-08-09;Egreso;Gasto de agua;60;
+659;2024-08-09;Egreso;Gasto de agua;60;
+658;2024-08-08;Ingreso;Leche;220;110L
+657;2024-08-08;Ingreso;Leche;220;110L
+656;2024-08-07;Egreso;Compra de herramientas;200;
+655;2024-08-07;Egreso;Compra de herramientas;200;
+654;2024-08-06;Ingreso;Queso;320;16 Kg
+653;2024-08-06;Ingreso;Queso;320;16 Kg
+652;2024-08-05;Egreso;Mantenimiento;75;
+651;2024-08-05;Egreso;Mantenimiento;75;
+650;2024-08-04;Ingreso;Leche;180;90 L
+649;2024-08-04;Ingreso;Leche;180;90 L
+648;2024-08-03;Egreso;Gasto de luz;100;
+647;2024-08-03;Egreso;Gasto de luz;100;
+646;2024-08-02;Ingreso;Queso;280;14 Kg
+645;2024-08-02;Ingreso;Queso;280;14 Kg
+644;2024-08-01;Egreso;Suministros veterinarios;80;
+643;2024-08-01;Egreso;Suministros veterinarios;80;
+642;2024-07-31;Ingreso;Leche;250;125L
+641;2024-07-31;Ingreso;Leche;250;125L
+640;2024-07-30;Egreso;Compra de vaca;1200;Vaca MN23
+639;2024-07-30;Egreso;Compra de vaca;1200;Vaca MN23
+638;2024-07-29;Ingreso;Queso;300;15 Kg
+637;2024-07-29;Ingreso;Queso;300;15 Kg
+636;2024-07-28;Egreso;Reparación de equipo;50;
+635;2024-07-28;Egreso;Reparación de equipo;50;
+634;2024-07-27;Ingreso;Leche;200;100 L
+633;2024-07-27;Ingreso;Leche;200;100 L
+632;2024-07-26;Egreso;Compra de alimento;150;
+631;2024-07-26;Egreso;Compra de alimento;150;

@@ -1,0 +1,31 @@
+system_log_id;date;time;user_id;username;action;details
+450;2024-08-09;11:00 PM;32;Usuario1;Agregó gasto;$60
+449;2024-08-09;11:00 PM;32;Usuario1;Agregó gasto;$60
+448;2024-08-08;10:00 PM;33;Usuario2;Agregó lote de leche;110L
+447;2024-08-08;10:00 PM;33;Usuario2;Agregó lote de leche;110L
+446;2024-08-07;09:00 PM;32;Usuario1;Agregó gasto;$200
+445;2024-08-07;09:00 PM;32;Usuario1;Agregó gasto;$200
+444;2024-08-06;08:00 PM;33;Usuario2;Agregó lote de queso;16 Kg
+443;2024-08-06;08:00 PM;33;Usuario2;Agregó lote de queso;16 Kg
+442;2024-08-05;07:00 PM;32;Usuario1;Agregó gasto;$75
+441;2024-08-05;07:00 PM;32;Usuario1;Agregó gasto;$75
+440;2024-08-04;06:00 PM;33;Usuario2;Agregó lote de leche;90 L
+439;2024-08-04;06:00 PM;33;Usuario2;Agregó lote de leche;90 L
+438;2024-08-03;05:00 PM;32;Usuario1;Agregó gasto;$100
+437;2024-08-03;05:00 PM;32;Usuario1;Agregó gasto;$100
+436;2024-08-02;04:00 PM;33;Usuario2;Agregó lote de queso;14 Kg
+435;2024-08-02;04:00 PM;33;Usuario2;Agregó lote de queso;14 Kg
+434;2024-08-01;03:00 PM;32;Usuario1;Agregó gasto;$80
+433;2024-08-01;03:00 PM;32;Usuario1;Agregó gasto;$80
+432;2024-07-31;02:00 PM;33;Usuario2;Agregó lote de leche;125L
+431;2024-07-31;02:00 PM;33;Usuario2;Agregó lote de leche;125L
+430;2024-07-30;01:00 PM;32;Usuario1;Agregó compra de vaca;Vaca MN23
+429;2024-07-30;01:00 PM;32;Usuario1;Agregó compra de vaca;Vaca MN23
+428;2024-07-29;12:00 PM;33;Usuario2;Agregó lote de queso;15 Kg
+427;2024-07-29;12:00 PM;33;Usuario2;Agregó lote de queso;15 Kg
+426;2024-07-28;11:00 AM;32;Usuario1;Agregó gasto;$50
+425;2024-07-28;11:00 AM;32;Usuario1;Agregó gasto;$50
+424;2024-07-27;10:00 AM;33;Usuario2;Agregó lote de leche;100 L
+423;2024-07-27;10:00 AM;33;Usuario2;Agregó lote de leche;100 L
+422;2024-07-26;09:00 AM;32;Usuario1;Agregó gasto;$150
+421;2024-07-26;09:00 AM;32;Usuario1;Agregó gasto;$150

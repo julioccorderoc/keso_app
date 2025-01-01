@@ -1,0 +1,18 @@
+[
+    {
+        "item_id": 11,
+        "item_name": "Leche",
+        "quantity": 1500,
+        "measurement_unit": "liters",
+        "last_updated_date": "2024-08-10",
+        "last_updated_by": "Usuario1"
+    },
+    {
+        "item_id": 22,
+        "item_name": "Queso",
+        "quantity": 100,
+        "measurement_unit": "kilos",
+        "last_updated_date": "2024-08-10",
+        "last_updated_by": "Usuario2"
+    }
+]

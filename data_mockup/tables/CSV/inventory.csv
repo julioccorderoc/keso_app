@@ -1,0 +1,3 @@
+item_id;item_name;quantity;measurement_unit;last_updated_date;last_updated_by
+11;Leche;1500;liters;2024-08-10;Usuario1
+22;Queso;100;kilos;2024-08-10;Usuario2

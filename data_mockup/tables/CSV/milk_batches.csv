@@ -1,0 +1,31 @@
+milk_batch_id;date;cow_id;cow_code;milk;comments
+350;2024-08-02;222;CO22;20.2;Producción estable
+349;2024-08-02;222;CO22;20.2;Producción estable
+348;2024-08-01;221;NA34;23.5;Sin problemas
+347;2024-08-01;220;CO56;30.5;Producción alta
+346;2024-08-01;221;NA34;23.5;Sin problemas
+345;2024-08-01;220;CO56;30.5;Producción alta
+344;2024-07-31;219;NA78;31.5;Pico de producción
+343;2024-07-31;218;CO90;13.8;Adaptándose a la lactancia
+342;2024-07-31;219;NA78;31.5;Pico de producción
+341;2024-07-31;218;CO90;13.8;Adaptándose a la lactancia
+340;2024-07-30;217;NA01;26.1;Ligero aumento
+339;2024-07-30;216;CO23;17.2;Continua el descenso
+338;2024-07-30;217;NA01;26.1;Ligero aumento
+337;2024-07-30;216;CO23;17.2;Continua el descenso
+336;2024-07-29;220;CO56;29.8;Buena producción
+335;2024-07-29;221;CO22;19.5;Producción constante
+334;2024-07-29;220;CO56;29.8;Buena producción
+333;2024-07-29;221;CO22;19.5;Producción constante
+332;2024-07-28;218;CO90;12.5;Primera lactancia
+331;2024-07-28;221;NA34;22;Sin novedades
+330;2024-07-28;218;CO90;12.5;Primera lactancia
+329;2024-07-28;221;NA34;22;Sin novedades
+328;2024-07-27;217;NA01;27;Producción estable
+327;2024-07-27;219;NA78;30.2;Excelente
+326;2024-07-27;217;NA01;27;Producción estable
+325;2024-07-27;219;NA78;30.2;Excelente
+324;2024-07-26;217;NA01;25.5;Buena producción
+323;2024-07-26;216;CO23;18;Leve descenso por calor
+322;2024-07-26;217;NA01;25.5;Buena producción
+321;2024-07-26;216;CO23;18;Leve descenso por calor
