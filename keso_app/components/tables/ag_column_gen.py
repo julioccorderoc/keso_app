@@ -1,5 +1,6 @@
-from header_mapping import HEADER, TYPE, CONFIG, FILTER, SORTABLE, HIDE, header_mapping
 import reflex_ag_grid as ag
+from header_mapping import HEADER, TYPE, CONFIG, FILTER, SORTABLE, HIDE, header_mapping
+from typing import Dict, Any
 
 # Filter mapping
 
@@ -11,59 +12,52 @@ FILTERS_MAP = {
 
 # Helper functions
 
-def is_boolean(value):
-    return isinstance(value, bool)
-
-def get_default_column_def(field):
+def get_default_column_def(column_name):
     """Creates a default column definition."""
-    return ag.column_def(field=field, header_name=field, filter=True, sortable=True)
-
-def get_config_value(config, key, default=None, type_check=None):
-    """Gets a config value with a default and optional type check."""
-    value = config.get(key, default)
-    if type_check and not isinstance(value, type_check):
-        return default
-    return value
+    return ag.column_def(
+        field=column_name, 
+        header_name=column_name, 
+        filter=False, 
+        sortable=False,
+        hide=False
+        )
 
 # Main function
 
-def generate_column_defs(data):
-    if not data:
+def generate_column_defs(sample_row: Dict[str, Any]) -> list:
+    if not sample_row:
         return []
 
-    first_item = data[0]
     column_defs = []
-    for field in first_item.keys():
-        field_config = header_mapping.get(field)
+    
+    for column_name in sample_row.keys():
+        header_to_map = header_mapping.get(column_name)
 
-        if not field_config:  # Early exit if no field mapping
-            print(f"Warning: No mapping found for field '{field}'. Using default configuration.")
-            column_defs.append(get_default_column_def(field))
+        if not header_to_map:
+            print(f"Warning: No mapping found for column_name '{column_name}'. Using default configuration.")
+            column_defs.append(get_default_column_def(column_name))
             continue
 
-        config = field_config.get(CONFIG)
-        if not config:  # Early exit if no config found
-            print(f"Warning: No 'config' found for field '{field}'. Using default configuration.")
-            column_defs.append(get_default_column_def(field))
+        configuration_values = header_to_map.get(CONFIG)
+        if not configuration_values:
+            print(f"Warning: No 'configuration_values' found for column_name '{column_name}'. Using default configuration.")
+            column_defs.append(get_default_column_def(column_name))
             continue
         
-        header_name = field_config.get(HEADER) or field
-        type_value = field_config.get(TYPE)
+        # main values
+        header_name = header_to_map.get(HEADER) or column_name
+        type_value = header_to_map.get(TYPE)
 
-        filter_value = get_config_value(config, FILTER, True, bool)
-        if isinstance(filter_value, str) and filter_value in FILTERS_MAP:
-            filter_param = FILTERS_MAP[filter_value]
-        else:
-            filter_param = filter_value
-
-        sortable_value = get_config_value(config, SORTABLE, True, bool)
-        hide_value = get_config_value(config, HIDE, False, bool)
+        # configuration values (this lacks robust error handling and type validation)
+        filter_value = configuration_values.get(FILTER)
+        sortable_value = configuration_values.get(SORTABLE)
+        hide_value = configuration_values.get(HIDE)
 
         column_def = ag.column_def(
-            field=field,
+            field=column_name,
             header_name=header_name,
             type=type_value,
-            filter=filter_param,
+            filter=filter_value,
             sortable=sortable_value,
             hide=hide_value,
         )

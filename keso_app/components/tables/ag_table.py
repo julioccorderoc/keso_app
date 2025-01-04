@@ -1,6 +1,7 @@
-import reflex as rx
-from ag_column_gen import generate_column_defs
+# import reflex as rx
 import reflex_ag_grid as ag
+from ag_column_gen import generate_column_defs
+from typing import List, Dict, Any
 
 # experimentar con filtros flotandes
 
@@ -19,12 +20,11 @@ table_config = {
 
 def ag_table(
     table_id: str,
-    row_data: list,
-    column_defs: list,
+    row_data: List[Dict[str, Any]]
     ):
     return ag(
         id = table_id,
         row_data = row_data,
-        column_defs = column_defs,
+        column_defs = generate_column_defs(List[0]),
         **table_config,
     )
