@@ -9,7 +9,7 @@ HIDE = "hide"
 
 header_mapping = {
     "cheese_batch_id": {
-        HEADER: "Lote de queso ID",
+        HEADER: "cheese_batch_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
@@ -27,7 +27,7 @@ header_mapping = {
         }
     },
     "user_id": {
-        HEADER: "Usuario ID",
+        HEADER: "user_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
@@ -81,7 +81,7 @@ header_mapping = {
         }
     },
     "cow_id": {
-        HEADER: "Vaca ID",
+        HEADER: "cow_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
@@ -135,7 +135,7 @@ header_mapping = {
         }
     },
     "item_id": {
-        HEADER: "Ítem ID",
+        HEADER: "item_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
@@ -189,7 +189,7 @@ header_mapping = {
         }
     },
     "milk_batch_id": {
-        HEADER: "Lote de leche ID",
+        HEADER: "milk_batch_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
@@ -207,7 +207,7 @@ header_mapping = {
         }
     },
     "system_log_id": {
-        HEADER: "Registro ID",
+        HEADER: "system_log_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
@@ -243,7 +243,7 @@ header_mapping = {
         }
     },
     "transaction_id": {
-        HEADER: "Transacción ID",
+        HEADER: "transaction_id",
         TYPE: "int",
         CONFIG: {
             FILTER: False,
