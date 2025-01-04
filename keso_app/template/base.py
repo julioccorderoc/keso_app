@@ -34,14 +34,16 @@ def custom_template(page_content: rx.Component) -> rx.Component:
                     page_content,
                     padding="1.5em",
                     position="relative",
-                    min_height="calc(100vh - 4em)",  # Altura total menos el header
+                    height="100dvh",
                     width="100%",
+                    
+                    id="main-content",
                 ),
                 width="100%",
                 spacing="0",
             ),
             flex_direction=["column", "column", "column", "row"],
-            min_height="100vh",
+            max_height="100dvh",
             width="100%",
         ),
         render_speed_dial(),  # Ensure speed dial is rendered on top
