@@ -1,6 +1,6 @@
 import reflex as rx
-from .. import styles
 from ..states import routes
+from .. import styles
 
 def sidebar_item(text: str, 
                  icon: str, 
@@ -148,12 +148,14 @@ def sidebar_desktop() -> rx.Component:
         padding_x="1em",
         padding_y="1.5em",
         bg=rx.color("accent", 3),
-        align="start",
         height="100dvh",
         width="16em",
+        #align="start",
+        position="sticky",
+        top="0",
     )
 
-def sidebar_mobile() -> rx.Component:
+def navbar_mobile() -> rx.Component:
     return rx.drawer.root(
         rx.drawer.trigger(
             rx.icon("align-justify", size=30)
@@ -192,14 +194,14 @@ def sidebar_mobile() -> rx.Component:
         direction="left",
     )
 
-def sidebar() -> rx.Component:
-    return rx.box(
+def nav_menu() -> rx.Component:
+    return rx.flex(
         rx.desktop_only(
-            sidebar_desktop()
+            sidebar_desktop(),
         ),
         rx.mobile_and_tablet(
-            sidebar_mobile(),
+            navbar_mobile(),
             padding="1em",
         ),
-        id="sidebar",
+        id="nav_menu",
     )

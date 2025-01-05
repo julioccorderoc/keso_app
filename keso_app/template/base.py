@@ -1,6 +1,6 @@
 import reflex as rx
 from .. import styles
-from ..components.sidebar import sidebar
+from ..components.navigation_menu import nav_menu
 from ..components.speed_dial import render_speed_dial
 
 # Meta tags for the app.
@@ -11,42 +11,56 @@ default_meta = [
     },
 ]
 
+def welcome_header() -> rx.Component:
+    return rx.heading(
+        "Bienvenido, usuario",
+        as_="h2",
+        size="5",
+        padding="1em",
+        width="100%",
+        id="welcome_header"
+    )
+
 def custom_template(page_content: rx.Component) -> rx.Component:
-    """Template personalizado que incluye sidebar y speed dial.
-    
-    Args:
-        page_content: El contenido de la página que se renderizará en el área principal
-    """
     return rx.flex(
+        nav_menu(),
         rx.flex(
-            sidebar(),
             rx.vstack(
-                rx.box(
-                    rx.heading(
-                        "Bienvenido, usuario",
-                        as_="h1",
-                        size="5",
-                        padding="1em"
-                    ),
-                    width="100%",
-                ),
-                rx.box(
+                welcome_header(),
+                rx.box( # without this box, the content will be shrinked to the left
                     page_content,
-                    padding="1.5em",
-                    position="relative",
-                    height="100dvh",
                     width="100%",
-                    
-                    id="main-content",
+                    **styles.template_content_style,
+                    id="base_main_content",
                 ),
                 width="100%",
-                spacing="0",
+                id="stack_header_content",
             ),
-            flex_direction=["column", "column", "column", "row"],
-            max_height="100dvh",
             width="100%",
+            **styles.template_page_style,
+            max_width=[
+                "100%",
+                "100%",
+                "100%",
+                "100%",
+                "100%",
+                styles.max_width,
+            ],
         ),
-        render_speed_dial(),  # Ensure speed dial is rendered on top
+        render_speed_dial(),
+        # flex_direction=[ # this make the sidebar to be on top of the content for most sizes, YES, this is because the working sidebar works with row and change to navbar when is colum, however, this doesn't explain why the sidebar is stuck at the top of the page
+        #     "column",
+        #     "column",
+        #     "column",
+        #     "column",
+        #     "column",
+        #     "row",
+        # ],
+        width="100%",
+        margin="auto",
+        position="relative",
+        #max_height="100dvh",
+        id="base_template",
     )
 
 # Función helper para crear páginas usando el template
