@@ -30,7 +30,7 @@ template_page_style = {
 template_content_style = {
     "padding": "1em",
     "margin_bottom": "2em",
-    "min_height": "90vh",
+    "max_height": "100dvh",
 }
 
 link_style = {
