@@ -201,4 +201,5 @@ def sidebar() -> rx.Component:
             sidebar_mobile(),
             padding="1em",
         ),
+        id="sidebar",
     )
