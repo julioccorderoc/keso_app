@@ -25,7 +25,7 @@ def get_default_column_def(column_name):
 
 # Main function
 
-def generate_column_defs(sample_row):
+def generate_column_defs(sample_row: Dict[str, Any]) -> list:
     if not sample_row:
         return []
 
@@ -61,6 +61,8 @@ def generate_column_defs(sample_row):
             filter=filter_value,
             sortable=sortable_value,
             hide=hide_value,
+            flex=1,
+            resizable=False
         )
         column_defs.append(column_def)
 

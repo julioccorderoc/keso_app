@@ -271,7 +271,7 @@ header_mapping = {
     },
     "amount": {
         HEADER: "Monto",
-        TYPE: "float",
+        TYPE: 'currency',
         CONFIG: {
             FILTER: "number",
             SORTABLE: True,
