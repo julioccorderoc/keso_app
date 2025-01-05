@@ -1,30 +1,31 @@
-import reflex_ag_grid as ag
-from header_mapping import HEADER, TYPE, CONFIG, FILTER, SORTABLE, HIDE, header_mapping
+from reflex_ag_grid import ag_grid
+from .header_mapping import HEADER, TYPE, CONFIG, FILTER, SORTABLE, HIDE, header_mapping
 from typing import Dict, Any
 
 # Filter mapping
 
 FILTERS_MAP = {
-    "date": ag.filters.date,
-    "number": ag.filters.number,
-    "text": ag.filters.text
+    "date": ag_grid.filters.date,
+    "number": ag_grid.filters.number,
+    "text": ag_grid.filters.text
 }
 
 # Helper functions
 
 def get_default_column_def(column_name):
     """Creates a default column definition."""
-    return ag.column_def(
+    return ag_grid.column_def(
         field=column_name, 
         header_name=column_name, 
         filter=False, 
         sortable=False,
-        hide=False
+        hide=False,
+        flex=1
         )
 
 # Main function
 
-def generate_column_defs(sample_row: Dict[str, Any]) -> list:
+def generate_column_defs(sample_row):
     if not sample_row:
         return []
 
@@ -53,7 +54,7 @@ def generate_column_defs(sample_row: Dict[str, Any]) -> list:
         sortable_value = configuration_values.get(SORTABLE)
         hide_value = configuration_values.get(HIDE)
 
-        column_def = ag.column_def(
+        column_def = ag_grid.column_def(
             field=column_name,
             header_name=header_name,
             type=type_value,
