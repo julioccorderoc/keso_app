@@ -11,7 +11,7 @@ table_config = {
 
 # Display control
 
-def create_header(header: str) -> rx.Component:
+def _create_header(header: str) -> rx.Component:
     return rx.table.column_header_cell(
         rx.hstack(
             # rx.icon(icon, size=18),
@@ -21,47 +21,47 @@ def create_header(header: str) -> rx.Component:
         )
     )
 
-def display_headers(headers: List[str]) -> rx.Component:
+def _display_headers(headers: List[str]) -> rx.Component:
     return rx.table.header(
         rx.table.row(
             rx.foreach(
                 headers,
-                create_header
+                _create_header
             ),
         ),
     ),
 
-def create_cell(cell_value: Any) -> rx.Component:
+def _create_cell(cell_value: Any) -> rx.Component:
     return rx.table.cell(cell_value)  
 
-def create_row(row_dict) -> rx.Component:
+def _create_row(row_dict) -> rx.Component:
     return rx.table.row(
         rx.foreach(
             row_dict.values(),
-            create_cell
+            _create_cell
         )
     )
 
-def display_body(rows: List[dict]) -> rx.Component:
+def _display_body(rows: List[dict]) -> rx.Component:
     return rx.table.body(
         rx.foreach(
             rows,
-            create_row
+            _create_row
         ),
     ),
 
 # Visual components
 
-def sort_controls() -> rx.Component:
+def _sort_controls() -> rx.Component:
     return rx.text("Sort controls")
 
-def search_filter() -> rx.Component:
+def _search_filter() -> rx.Component:
     return rx.text("Search filter")
 
-def export_button() -> rx.Component:
+def _export_button() -> rx.Component:
     return rx.text("Export button")
 
-def main_filter() -> rx.Component:
+def _main_filter() -> rx.Component:
     return rx.text("Main filter")
 
 def _pagination_controls(data_state: rx.state) -> rx.Component:
@@ -84,8 +84,8 @@ def table_component(data_state: rx.state) -> rx.Component:
     return rx.vstack(
         _pagination_controls(data_state),
         rx.table.root(
-            display_headers(data_state.headers),
-            display_body(data_state.current_page_data),
+            _display_headers(data_state.headers),
+            _display_body(data_state.current_page_data),
             variant="surface",
             on_mount=data_state.load_entries,
             width="100%",

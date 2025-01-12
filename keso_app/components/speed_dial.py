@@ -88,12 +88,6 @@ class SpeedDialMenu(rx.ComponentState):
 speed_dial_menu = SpeedDialMenu.create
 def render_speed_dial() -> rx.Component:
 
-    """Render the speed dial menu component.
-    
-    Returns:
-        rx.Component: The speed dial menu component.
-
-    """
     return rx.box(
         speed_dial_menu(),
         position="fixed",  # Changed to fixed to stay in viewport
