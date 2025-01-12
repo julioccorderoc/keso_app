@@ -1,7 +1,7 @@
 [
     {
         "milk_batch_id": 350,
-        "date": "2024-08-02",
+        "created_at": "2024-08-02",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 222,
@@ -11,7 +11,7 @@
     },
     {
         "milk_batch_id": 349,
-        "date": "2024-08-02",
+        "created_at": "2024-08-02",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 222,
@@ -21,7 +21,7 @@
     },
     {
         "milk_batch_id": 348,
-        "date": "2024-08-01",
+        "created_at": "2024-08-01",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 221,
@@ -31,7 +31,7 @@
     },
     {
         "milk_batch_id": 347,
-        "date": "2024-08-01",
+        "created_at": "2024-08-01",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 220,
@@ -41,7 +41,7 @@
     },
     {
         "milk_batch_id": 346,
-        "date": "2024-08-01",
+        "created_at": "2024-08-01",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 221,
@@ -51,7 +51,7 @@
     },
     {
         "milk_batch_id": 345,
-        "date": "2024-08-01",
+        "created_at": "2024-08-01",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 220,
@@ -61,7 +61,7 @@
     },
     {
         "milk_batch_id": 344,
-        "date": "2024-07-31",
+        "created_at": "2024-07-31",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 219,
@@ -71,7 +71,7 @@
     },
     {
         "milk_batch_id": 343,
-        "date": "2024-07-31",
+        "created_at": "2024-07-31",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 218,
@@ -81,7 +81,7 @@
     },
     {
         "milk_batch_id": 342,
-        "date": "2024-07-31",
+        "created_at": "2024-07-31",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 219,
@@ -91,7 +91,7 @@
     },
     {
         "milk_batch_id": 341,
-        "date": "2024-07-31",
+        "created_at": "2024-07-31",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 218,
@@ -101,7 +101,7 @@
     },
     {
         "milk_batch_id": 340,
-        "date": "2024-07-30",
+        "created_at": "2024-07-30",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 217,
@@ -111,7 +111,7 @@
     },
     {
         "milk_batch_id": 339,
-        "date": "2024-07-30",
+        "created_at": "2024-07-30",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 216,
@@ -121,7 +121,7 @@
     },
     {
         "milk_batch_id": 338,
-        "date": "2024-07-30",
+        "created_at": "2024-07-30",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 217,
@@ -131,7 +131,7 @@
     },
     {
         "milk_batch_id": 337,
-        "date": "2024-07-30",
+        "created_at": "2024-07-30",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 216,
@@ -141,7 +141,7 @@
     },
     {
         "milk_batch_id": 336,
-        "date": "2024-07-29",
+        "created_at": "2024-07-29",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 220,
@@ -151,7 +151,7 @@
     },
     {
         "milk_batch_id": 335,
-        "date": "2024-07-29",
+        "created_at": "2024-07-29",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 221,
@@ -161,7 +161,7 @@
     },
     {
         "milk_batch_id": 334,
-        "date": "2024-07-29",
+        "created_at": "2024-07-29",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 220,
@@ -171,7 +171,7 @@
     },
     {
         "milk_batch_id": 333,
-        "date": "2024-07-29",
+        "created_at": "2024-07-29",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 221,
@@ -181,7 +181,7 @@
     },
     {
         "milk_batch_id": 332,
-        "date": "2024-07-28",
+        "created_at": "2024-07-28",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 218,
@@ -191,7 +191,7 @@
     },
     {
         "milk_batch_id": 331,
-        "date": "2024-07-28",
+        "created_at": "2024-07-28",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 221,
@@ -201,7 +201,7 @@
     },
     {
         "milk_batch_id": 330,
-        "date": "2024-07-28",
+        "created_at": "2024-07-28",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 218,
@@ -211,7 +211,7 @@
     },
     {
         "milk_batch_id": 329,
-        "date": "2024-07-28",
+        "created_at": "2024-07-28",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 221,
@@ -221,7 +221,7 @@
     },
     {
         "milk_batch_id": 328,
-        "date": "2024-07-27",
+        "created_at": "2024-07-27",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 217,
@@ -231,7 +231,7 @@
     },
     {
         "milk_batch_id": 327,
-        "date": "2024-07-27",
+        "created_at": "2024-07-27",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 219,
@@ -241,7 +241,7 @@
     },
     {
         "milk_batch_id": 326,
-        "date": "2024-07-27",
+        "created_at": "2024-07-27",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 217,
@@ -251,7 +251,7 @@
     },
     {
         "milk_batch_id": 325,
-        "date": "2024-07-27",
+        "created_at": "2024-07-27",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 219,
@@ -261,7 +261,7 @@
     },
     {
         "milk_batch_id": 324,
-        "date": "2024-07-26",
+        "created_at": "2024-07-26",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 217,
@@ -271,7 +271,7 @@
     },
     {
         "milk_batch_id": 323,
-        "date": "2024-07-26",
+        "created_at": "2024-07-26",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 216,
@@ -281,7 +281,7 @@
     },
     {
         "milk_batch_id": 322,
-        "date": "2024-07-26",
+        "created_at": "2024-07-26",
         "user_id": 32,
         "username": "Usuario1",
         "cow_id": 217,
@@ -291,7 +291,7 @@
     },
     {
         "milk_batch_id": 321,
-        "date": "2024-07-26",
+        "created_at": "2024-07-26",
         "user_id": 33,
         "username": "Usuario2",
         "cow_id": 216,
