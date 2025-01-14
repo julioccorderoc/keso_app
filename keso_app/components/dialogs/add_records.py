@@ -15,7 +15,11 @@ def trigger_button(
                 rx.text(
                     button_text, 
                     size="4", 
-                    display=["none", "none", "block"]
+                    display=[
+                        "none", 
+                        "none", 
+                        "block"
+                    ]
                 ),
                 size="3",
             ),
@@ -103,26 +107,54 @@ def dialog_actions(
             )
         )
     )
-    
+
 
 def dialog_form(
         trigger_button_config: dict,
         header_config: dict,
-        action_buttons_config: dict,
+        # action_buttons_config: dict,
         form_to_use: rx.Component,
+        on_submit: callable,
     ) -> rx.Component:
     
     return rx.dialog.root(
         trigger_button(
-            "Open Dialog",
+            **trigger_button_config
         ),
         rx.dialog.content(
             dialog_header(
-                
+                **header_config
             ),
-            form_to_use(),
-            action_buttons(
-                
-            )
+            rx.flex(
+                rx.form.root(
+                    form_to_use(),
+                    rx.flex(
+                        rx.dialog.close(
+                            rx.button(
+                                "Cancel",
+                                variant="soft",
+                                color_scheme="gray",
+                            ),
+                        ),
+                        rx.form.submit(
+                            rx.dialog.close(
+                                rx.button("Submit Customer"),
+                            ),
+                            as_child=True,
+                        ),
+                        padding_top="2em",
+                        spacing="3",
+                        mt="4",
+                        justify="end",
+                    ),
+                    on_submit=on_submit,
+                    reset_on_submit=False,
+                ),
+                width="100%",
+                direction="column",
+                spacing="4",
+            ),
+            max_width="450px",
+            padding="1.5em",
         )
     )

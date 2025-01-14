@@ -5,13 +5,13 @@ form_config = {}
 form_style = {}
 
 def _form_field_label(
-        icon: str,
+        icon_tag: str,
         label: str,
     ) -> rx.Component:
     
     return rx.hstack(
         rx.icon(
-            icon, 
+            icon_tag, 
             size=16, 
             stroke_width=1.5
         ),
@@ -69,23 +69,24 @@ def _form_control_textarea(
         as_child=True,
     )
 
-def _form_field(
+def form_control_match() -> rx.Component:
+    pass
+
+def _create_form_field(
         label: str,
         placeholder: str,
         type: str,
         name: str,
-        icon: str,
+        icon_tag: str,
         default_value: str = "",
         required: bool = False,
     ) -> rx.Component:
     
     return rx.form.field(
         rx.flex(
-            rx.hstack(
-                rx.icon(icon, size=16, stroke_width=1.5),
-                rx.form.label(label),
-                align="center",
-                spacing="2",
+            _form_field_label(
+                icon_tag, 
+                label
             ),
             rx.form.control(
                 rx.input(
@@ -106,43 +107,38 @@ def _form_field(
 def add_milk_batch_form() -> rx.Component:
     
     return rx.flex(
-        rx.form.root(
-            rx.flex(
-                # cow from where the milk is being produced
-                _form_field(
-                    label="Vaca",
-                    placeholder="CO001",
-                    type="text",
-                    name="cow_code",
-                    icon="icon_name",
-                    default_value="CO001",
-                    required=True,
-                ),
-                # milk produced
-                _form_field(
-                    label="Lecha extraida",
-                    placeholder=5,
-                    type="float",
-                    name="milk_produced",
-                    icon="icon_name",
-                    default_value=5,
-                    required=True,
-                ),
-                # comments and observations
-                _form_field(
-                    label="Observaciones",
-                    placeholder="Escribe tus observaciones aqui...",
-                    type="text",
-                    name="comments",
-                    icon="icon_name",
-                    default_value="Produccion normal",
-                    required=False,
-                ),
-            ),
-            rx.flex(
-                
-            ),
-        )
+        # cow from where the milk is being produced
+        _create_form_field(
+            label="Vaca",
+            placeholder="CO001",
+            type="text",
+            name="cow_code",
+            icon_tag="paw-print",
+            default_value="",
+            required=True,
+        ),
+        # milk produced
+        _create_form_field(
+            label="Lecha extraida",
+            placeholder="5",
+            type="number",
+            name="milk_produced",
+            icon_tag="milk",
+            default_value="",
+            required=True,
+        ),
+        # comments and observations
+        _create_form_field(
+            label="Observaciones",
+            placeholder="Escribe tus observaciones aqui...",
+            type="text",
+            name="comments",
+            icon_tag="message-square-text",
+            default_value="",
+            required=False,
+        ),
+        direction="column",
+        spacing="3",
     )
 
 def add_cheese_batch_form() -> rx.Component:
