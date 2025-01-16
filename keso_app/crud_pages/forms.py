@@ -104,10 +104,7 @@ def _form_field(
         label: str,
         name: str,
         required: bool = False,
-        placeholder: str = "",
-        type: str = "text",
-        default_value: str = "",
-        item_list: list = [],
+        **kwargs,
     ) -> rx.Component:
 
     return rx.vstack(
@@ -116,10 +113,7 @@ def _form_field(
             field_type=field_type, 
             name=name,
             required=required,
-            placeholder=placeholder,
-            type=type,
-            default_value=default_value,
-            item_list=item_list,
+            **kwargs,
             ),
         direction="column",
         width="100%",
