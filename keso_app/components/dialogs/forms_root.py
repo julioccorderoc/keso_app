@@ -162,28 +162,28 @@ def add_milk_batch_form() -> rx.Component:
     )
 
 def add_cheese_batch_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_expense_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_revenue_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_expense_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_transaction_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_cow_birth_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_cow_purchase_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_cow_death_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()
 
 def add_item_to_inventory_form() -> rx.Component:
-    return rx.form()
+    return rx.flex()

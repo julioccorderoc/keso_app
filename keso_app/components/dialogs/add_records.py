@@ -1,7 +1,7 @@
 import reflex as rx
 
 
-def trigger_button(
+def _trigger_button(
         button_text: str,
         icon: str = "plus",
     ) -> rx.Component:
@@ -26,7 +26,7 @@ def trigger_button(
     )
     
     
-def action_buttons(
+def _action_buttons(
         on_close: callable, 
         on_submit: callable,
         submit_button_text: str,
@@ -53,7 +53,7 @@ def action_buttons(
     )
 
 
-def dialog_header(
+def _dialog_header(
         icon: str,
         title: str,
         description: str, 
@@ -91,7 +91,7 @@ def dialog_header(
     )
 
 
-def dialog_actions(
+def _dialog_actions(
         primary_button_text: str,
         secondary_button_text: str,
     ) -> rx.Component:
@@ -117,11 +117,11 @@ def dialog_form(
     ) -> rx.Component:
     
     return rx.dialog.root(
-        trigger_button(
+        _trigger_button(
             **trigger_button_config
         ),
         rx.dialog.content(
-            dialog_header(
+            _dialog_header(
                 **header_config
             ),
             rx.flex(

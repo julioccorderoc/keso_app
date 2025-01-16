@@ -1,7 +1,7 @@
 import reflex as rx
 from typing import List, Dict, Any, Optional
 
-from .models import (
+from ..backend.models import (
     Milk_Batches,
     Cheese_Batches,
     # Transactions,
@@ -13,7 +13,7 @@ from .models import (
     # Cow_Deaths,
 )
 
-class Data_Base(rx.State):
+class _Data_Base(rx.State):
     
     def load_entry_from_db(self):
         pass
@@ -22,12 +22,7 @@ class Data_Base(rx.State):
         pass
     
     def add_entry_to_db(self, model_class, form_data: dict):
-        """Agrega una nueva entrada a la base de datos.
 
-        Args:
-            model_class: La clase del modelo SQLModel (por ejemplo, Milk_Batches, Customer, etc.).
-            form_data: Un diccionario con los datos del formulario.
-        """
         with rx.session() as session:
             # Crear una instancia del modelo con los datos del formulario
             new_entry = model_class(**form_data)
@@ -54,7 +49,7 @@ class Data_Base(rx.State):
     def delete_entry_from_db(self, entry: Any):
         pass
     
-class Milk_Batches_DB(Data_Base):
+class Milk_Batches_DB(_Data_Base):
     
     def handle_submit(
             self,

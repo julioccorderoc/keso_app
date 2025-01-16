@@ -1,10 +1,12 @@
 import reflex as rx
+
+from ..backend import models
 from ..states import routes
 from .. import styles
 
 from ..template.base import create_page
-from ..components import dialog_form
-from ..crud_pages import add_milk_batch_form, Milk_Batches_DB, models
+from ..components import dialog_form_milk_batch
+from ..crud_pages import add_milk_batch_form, Milk_Batches_DB
 
 trigger_button_config = {
     "button_text": "Nueva Transacción",
@@ -31,10 +33,5 @@ def transactions():
     return rx.vstack(
         rx.heading("Mi Contenido"),
         rx.text("Algo de contenido..."),
-        dialog_form(
-            trigger_button_config,
-            header_config,
-            add_milk_batch_form,
-            Milk_Batches_DB.handle_submit(),
-        )
+        dialog_form_milk_batch()
     )
