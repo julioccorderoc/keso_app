@@ -68,16 +68,14 @@ def _form_control_textarea(
 
 def _form_field_control(
         field_type: str,
-        name: str,
-        required: bool,
         **kwargs,
     ) -> rx.Component:
     
     return rx.match(
         field_type,
-        ("select", rx.fragment(_form_control_select(name, required, **kwargs))),
-        ("textarea", rx.fragment(_form_control_textarea(name, required, **kwargs))),
-        ("input", rx.fragment(_form_control_input(name, required, **kwargs))),
+        ("select", rx.fragment(_form_control_select(**kwargs))),
+        ("textarea", rx.fragment(_form_control_textarea(**kwargs))),
+        ("input", rx.fragment(_form_control_input(**kwargs))),
         rx.text(f"Unknown field type: {field_type}")
     ),
 
@@ -102,19 +100,12 @@ def _form_field(
         field_type: str,
         icon_tag: str,
         label: str,
-        name: str,
-        required: bool = False,
         **kwargs,
     ) -> rx.Component:
 
     return rx.vstack(
         _form_field_label(icon_tag, label),
-        _form_field_control(
-            field_type=field_type, 
-            name=name,
-            required=required,
-            **kwargs,
-            ),
+        _form_field_control(field_type=field_type, **kwargs),
         direction="column",
         width="100%",
         spacing="3",
