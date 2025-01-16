@@ -4,6 +4,7 @@ __pycache__/
 assets/external/
 .web
 .venv/
+.venvWSL/
 .cursorrules
 alembic/
 alembic.ini
