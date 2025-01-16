@@ -1,144 +1,174 @@
 import reflex as rx
+from typing import Optional
 
 form_config = {}
 
 form_style = {}
 
+
+def _form_control_input(
+        name: str,
+        required: bool,
+        placeholder: str = "",
+        type: str = "text",
+        default_value: str = "",
+        item_list: list = [],
+    ) -> rx.Component:
+    
+    return rx.input(
+        name=name,
+        required=required,
+        placeholder=placeholder, 
+        type=type, 
+        default_value=default_value,
+        as_child=True,
+    ),
+
+def _form_control_select(
+        name: str,
+        required: bool,
+        placeholder: str = "",
+        type: str = "text",
+        default_value: str = "",
+        item_list: list = []
+    ) -> rx.Component:
+    
+    return rx.select(
+        name=name,
+        required=required,
+        items=item_list,
+        placeholder=placeholder,
+        direction="row",
+        as_child=True,
+        width="100%",
+    ),
+
+def _form_control_textarea(
+        name: str,
+        required: bool,
+        placeholder: str = "",
+        type: str = "text",
+        default_value: str = "",
+        item_list: list = [],
+    ) -> rx.Component:
+    
+    return rx.text_area(
+        name=name,
+        required=required,
+        placeholder=placeholder,
+        default_value=default_value,
+        max_length=140,
+        rows="2",
+        resize="vertical",
+        width="100%",
+        as_child=True,
+    ),
+
+
+def _form_field_control(
+        field_type: str,
+        name: str,
+        required: bool,
+        **kwargs,
+    ) -> rx.Component:
+    
+    return rx.match(
+        field_type,
+        ("select", rx.fragment(_form_control_select(name, required, **kwargs))),
+        ("textarea", rx.fragment(_form_control_textarea(name, required, **kwargs))),
+        ("input", rx.fragment(_form_control_input(name, required, **kwargs))),
+        rx.text(f"Unknown field type: {field_type}")
+    ),
+
+
 def _form_field_label(
         icon_tag: str,
         label: str,
     ) -> rx.Component:
-    
+
     return rx.hstack(
         rx.icon(
             icon_tag, 
-            size=16, 
+            size=16,
             stroke_width=1.5
         ),
-        rx.form.label(label),
+        rx.text(label),
         align="center",
         spacing="2",
     )
 
-def _form_control_input(
-        placeholder: str,
-        type: str,
-        required: bool,
-        default_value: str = "",
-    ) -> rx.Component:
-    
-    return rx.form.control(
-        rx.input(
-            placeholder=placeholder, 
-            type=type, 
-            default_value=default_value,
-            required=required
-        ),
-        as_child=True,
-    )
-    
-def _form_control_select(
-        item_list: list,
-        required: bool,
-    ) -> rx.Component:
-    
-    return rx.form.control(
-        rx.select(
-            items=item_list,
-            default_value=item_list[0],
-            required=required
-        ),
-        as_child=True,
-    )
-    
-def _form_control_textarea(
-        placeholder: str,
-        default_value: str = "",
-        required: bool = False,
-    ) -> rx.Component:
-    
-    return rx.form.control(
-        rx.text_area(
-            placeholder=placeholder,
-            default_value=default_value,
-            max_length=140,
-            rows=2,
-            resize="vertical",
-            required=required
-        ),
-        as_child=True,
-    )
-
-def form_control_match() -> rx.Component:
-    pass
-
-def _create_form_field(
-        label: str,
-        placeholder: str,
-        type: str,
-        name: str,
+def _form_field(
+        field_type: str,
         icon_tag: str,
-        default_value: str = "",
+        label: str,
+        name: str,
         required: bool = False,
+        placeholder: str = "",
+        type: str = "text",
+        default_value: str = "",
+        item_list: list = [],
     ) -> rx.Component:
-    
-    return rx.form.field(
-        rx.flex(
-            _form_field_label(
-                icon_tag, 
-                label
+
+    return rx.vstack(
+        _form_field_label(icon_tag, label),
+        _form_field_control(
+            field_type=field_type, 
+            name=name,
+            required=required,
+            placeholder=placeholder,
+            type=type,
+            default_value=default_value,
+            item_list=item_list,
             ),
-            rx.form.control(
-                rx.input(
-                    placeholder=placeholder, 
-                    type=type, 
-                    default_value=default_value,
-                    required=required
-                ),
-                as_child=True,
-            ),
-            direction="column",
-            spacing="1",
-        ),
-        name=name,
+        direction="column",
         width="100%",
+        spacing="3",
     )
+
 
 def add_milk_batch_form() -> rx.Component:
     
     return rx.flex(
-        # cow from where the milk is being produced
-        _create_form_field(
-            label="Vaca",
-            placeholder="CO001",
-            type="text",
-            name="cow_code",
-            icon_tag="paw-print",
-            default_value="",
-            required=True,
-        ),
-        # milk produced
-        _create_form_field(
-            label="Lecha extraida",
-            placeholder="5",
-            type="number",
-            name="milk_produced",
-            icon_tag="milk",
-            default_value="",
-            required=True,
+        rx.hstack(
+            # cow from where the milk is being produced
+            _form_field(
+                field_type="select",
+                icon_tag="paw-print",
+                label="Vaca",
+                name="cow_code",
+                required=True,
+                placeholder="Selecciona una vaca",
+                type="text",
+                default_value="",
+                item_list=["CO001", "CO002", "CO003"],
+            ),
+            # milk produced
+            _form_field(
+                field_type="input",
+                icon_tag="milk",
+                label="Lecha extraida",
+                name="milk_produced",
+                required=True,
+                placeholder="Litros producidos",
+                type="number",
+                default_value=""
+            ),
+            spacing="3",
+            width="100%",
         ),
         # comments and observations
-        _create_form_field(
+        _form_field(
+            field_type="textarea",
+            icon_tag="message-square-text",
             label="Observaciones",
+            name="comments",
+            required=False,
             placeholder="Escribe tus observaciones aqui...",
             type="text",
-            name="comments",
-            icon_tag="message-square-text",
             default_value="",
-            required=False,
         ),
         direction="column",
-        spacing="3",
+        spacing="5",
     )
 
 def add_cheese_batch_form() -> rx.Component:
