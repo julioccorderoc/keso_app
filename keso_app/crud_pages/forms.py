@@ -5,6 +5,7 @@ form_config = {}
 
 form_style = {}
 
+# TODO pass kwargs to the form controls instead of predefined parameters
 
 def _form_control_input(
         name: str,
@@ -21,6 +22,7 @@ def _form_control_input(
         placeholder=placeholder, 
         type=type, 
         default_value=default_value,
+        high_contrast=True,
         width="100%",
         as_child=True,
     ),
@@ -39,6 +41,7 @@ def _form_control_select(
         required=required,
         items=item_list,
         placeholder=placeholder,
+        high_contrast=True,
         direction="row",
         width="100%",
         as_child=True,
@@ -58,6 +61,7 @@ def _form_control_textarea(
         required=required,
         placeholder=placeholder,
         default_value=default_value,
+        high_contrast=True,
         max_length=140,
         rows="2",
         resize="vertical",
