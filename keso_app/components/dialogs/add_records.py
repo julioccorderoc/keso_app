@@ -91,7 +91,6 @@ def dialog_header(
     )
 
 
-
 def dialog_actions(
         primary_button_text: str,
         secondary_button_text: str,

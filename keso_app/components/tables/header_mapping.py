@@ -17,8 +17,8 @@ header_mapping = {
             HIDE: True
         }
     },
-    "date": {
-        HEADER: "Fecha",
+    "created_at": {
+        HEADER: "Creado el",
         TYPE: "date",
         CONFIG: {
             FILTER: "date",
@@ -170,7 +170,7 @@ header_mapping = {
             HIDE: True
         }
     },
-    "last_updated_date": {
+    "last_updated_at": {
         HEADER: "Actualizado el",
         TYPE: "date",
         CONFIG: {
