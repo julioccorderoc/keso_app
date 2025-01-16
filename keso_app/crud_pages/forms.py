@@ -21,6 +21,7 @@ def _form_control_input(
         placeholder=placeholder, 
         type=type, 
         default_value=default_value,
+        width="100%",
         as_child=True,
     ),
 
@@ -39,8 +40,8 @@ def _form_control_select(
         items=item_list,
         placeholder=placeholder,
         direction="row",
-        as_child=True,
         width="100%",
+        as_child=True,
     ),
 
 def _form_control_textarea(
