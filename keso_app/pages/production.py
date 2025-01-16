@@ -14,7 +14,7 @@ class Production_Table_State(rx.State):
         self.selected_tab = value
 
 import json
-with open(r"C:\Users\USER\Documents\CheeseFarm\keso_app\data_mockup\tables\milk_batches.json") as f:
+with open(r"/home/julioccorderoc/Cheese_Farm/keso_app/data_mockup/tables/milk_batches.json") as f:
     json_data = json.load(f)
 
 @create_page(route=routes.PRODUCTION_ROUTE, title="Producción")
