@@ -1,34 +1,6 @@
 import reflex as rx
 from ...states import Dialogs_State
 
-    
-    
-def _action_buttons(
-        on_close: callable, 
-        on_submit: callable,
-        submit_button_text: str,
-        cancel_button_text: str = "Cancel",
-    ) -> rx.Component:
-
-    return rx.flex(
-        rx.dialog.close(
-            rx.button(
-                cancel_button_text,
-                variant="soft",
-                color_scheme="gray",
-                on_click=on_close,
-            ),
-        ),
-        rx.button(
-            submit_button_text, 
-            on_click=on_submit
-        ),
-        padding_top="2em",
-        spacing="3",
-        mt="4",
-        justify="end",
-    )
-
 
 def _dialog_header(
         icon: str,
@@ -61,6 +33,33 @@ def _dialog_header(
             width="100%",
         )    
     )
+    
+    
+def _action_buttons(
+        on_close: callable, 
+        on_submit: callable,
+        submit_button_text: str,
+        cancel_button_text: str = "Cancel",
+    ) -> rx.Component:
+
+    return rx.flex(
+        rx.dialog.close(
+            rx.button(
+                cancel_button_text,
+                variant="soft",
+                color_scheme="gray",
+                on_click=on_close,
+            ),
+        ),
+        rx.button(
+            submit_button_text, 
+            on_click=on_submit
+        ),
+        padding_top="2em",
+        spacing="3",
+        mt="4",
+        justify="end",
+    )
 
 
 def _dialog_actions(
@@ -80,9 +79,12 @@ def _dialog_actions(
     )
 
 
+
+
+
 def dialog_form(
         header_config: dict,
-        # action_buttons_config: dict,
+        
         form_to_use: rx.Component,
         on_submit: callable,
         resubmit_form: bool,
@@ -129,6 +131,9 @@ def dialog_form(
             ),
             max_width="450px",
             padding="1.5em",
+            on_pointer_down_outside=Dialogs_State.setvar(dialog_to_open, False),
+            on_escape_key_down=Dialogs_State.setvar(dialog_to_open, False)
         ),
-        open=getattr(Dialogs_State, dialog_to_open)
+        open=getattr(Dialogs_State, dialog_to_open),
+        on_open_change=lambda state_change: Dialogs_State.setvar(dialog_to_open, state_change)
     )
