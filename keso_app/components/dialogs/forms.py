@@ -5,6 +5,7 @@ from .forms_root import (
     add_milk_batch_form,
     add_cheese_batch_form,
     add_expense_form,
+    add_revenue_form,
     add_transaction_form,
     add_cow_birth_form,
     add_cow_purchase_form,
@@ -12,35 +13,25 @@ from .forms_root import (
     add_item_to_inventory_form
 )
 from ...states import (
-    Milk_Batches_DB
+    Milk_Batches_DB,
+    Dialogs_State
 )
 
 
 
 def dialog_form_milk_batch() -> rx.Component:
-    
-    trigger_button_config = {
-        "button_text": "Nuevo lote de leche",
-        "icon": "plus"
-    }
 
     header_config = {
         "icon": "milk",
-        "title": "Nueva Transacción",
-        "description": "Este es una dialogo de prueba", 
-    }
-
-    action_buttons_config = {
-        "on_close": rx.dialog.close(), 
-        "on_submit": Milk_Batches_DB.handle_submit(),
-        "submit_button_text": "Registrar lote",
-        "cancel_button_text": "Cancelar",
+        "title": "Nuevo lote de leche",
+        "description": "Ingresa los datos de este lote de leche", 
     }
     
     return dialog_form(
-        trigger_button_config,
         header_config,
         add_milk_batch_form,
         Milk_Batches_DB.handle_submit(),
+        True,
+        "milk_batch_is_open"
     )
 

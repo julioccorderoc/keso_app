@@ -1,5 +1,9 @@
 import reflex as rx
 from .. import styles
+
+from ..components import (
+    dialog_form_milk_batch
+)
 from ..components.navigation_menu import nav_menu
 from ..components.speed_dial import render_speed_dial
 
@@ -24,6 +28,7 @@ def welcome_header() -> rx.Component:
 def custom_template(page_content: rx.Component) -> rx.Component:
     return rx.flex(
         nav_menu(),
+        dialog_form_milk_batch(),
         rx.flex(
             rx.vstack(
                 welcome_header(),

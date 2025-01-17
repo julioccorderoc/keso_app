@@ -1,29 +1,6 @@
 import reflex as rx
+from ...states import Dialogs_State
 
-
-def _trigger_button(
-        button_text: str,
-        icon: str = "plus",
-    ) -> rx.Component:
-    
-    return rx.dialog.trigger(
-            rx.button(
-                rx.icon(
-                    icon, 
-                    size=26
-                ),
-                rx.text(
-                    button_text, 
-                    size="4", 
-                    display=[
-                        "none", 
-                        "none", 
-                        "block"
-                    ]
-                ),
-                size="3",
-            ),
-    )
     
     
 def _action_buttons(
@@ -62,10 +39,7 @@ def _dialog_header(
     return rx.box(
         rx.hstack(
             rx.badge(
-                rx.icon(
-                    tag=icon, 
-                    size=34
-                ),
+                rx.icon(tag=icon, size=34),
                 radius="full",
                 padding="0.65rem",
                 ),
@@ -75,9 +49,7 @@ def _dialog_header(
                     weight="bold",
                     margin="0",
                 ),
-                rx.dialog.description(
-                    description,
-                ),
+                rx.dialog.description(description),
                 spacing="1",
                 height="100%",
                 align_items="start",
@@ -109,17 +81,15 @@ def _dialog_actions(
 
 
 def dialog_form(
-        trigger_button_config: dict,
         header_config: dict,
         # action_buttons_config: dict,
         form_to_use: rx.Component,
         on_submit: callable,
+        resubmit_form: bool,
+        dialog_to_open: str
     ) -> rx.Component:
     
     return rx.dialog.root(
-        _trigger_button(
-            **trigger_button_config
-        ),
         rx.dialog.content(
             _dialog_header(
                 **header_config
@@ -130,14 +100,18 @@ def dialog_form(
                     rx.flex(
                         rx.dialog.close(
                             rx.button(
-                                "Cancel",
+                                "Cancelar",
                                 variant="soft",
                                 color_scheme="gray",
+                                on_click=Dialogs_State.setvar(dialog_to_open, False),
                             ),
                         ),
                         rx.form.submit(
                             rx.dialog.close(
-                                rx.button("Submit Customer"),
+                                rx.button(
+                                    "Agregar lote",
+                                    on_click=Dialogs_State.setvar(dialog_to_open, resubmit_form)
+                                ),
                             ),
                             as_child=True,
                         ),
@@ -147,7 +121,7 @@ def dialog_form(
                         justify="end",
                     ),
                     on_submit=on_submit,
-                    reset_on_submit=False,
+                    reset_on_submit=resubmit_form,
                 ),
                 width="100%",
                 direction="column",
@@ -155,5 +129,6 @@ def dialog_form(
             ),
             max_width="450px",
             padding="1.5em",
-        )
+        ),
+        open=getattr(Dialogs_State, dialog_to_open)
     )
