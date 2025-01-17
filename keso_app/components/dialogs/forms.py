@@ -20,17 +20,18 @@ from ...states import (
 
 def dialog_form_milk_batch() -> rx.Component:
 
-    header_config = {
+    header = {
         "icon": "milk",
         "title": "Nuevo lote de leche",
         "description": "Ingresa los datos de este lote de leche", 
     }
     
     return dialog_form(
-        header_config,
-        add_milk_batch_form,
-        Milk_Batches_DB.handle_submit(),
-        True,
-        "milk_batch_is_open"
+        header=header,
+        form_to_use=add_milk_batch_form,
+        on_submit=Milk_Batches_DB.handle_submit(),
+        dialog_to_open="milk_batch_is_open",
+        resubmit_form=True,
+        primary_button_text="Agregar lote"
     )
 

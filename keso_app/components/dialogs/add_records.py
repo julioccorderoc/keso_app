@@ -63,19 +63,34 @@ def _action_buttons(
 
 
 def _dialog_actions(
+        dialog_to_open: str,
+        resubmit_form: bool,
         primary_button_text: str,
         secondary_button_text: str,
     ) -> rx.Component:
     
-    return rx.box(
-        rx.hstack(
+    return rx.flex(
+        rx.dialog.close(
             rx.button(
-                
+                secondary_button_text,
+                variant="soft",
+                color_scheme="gray",
+                on_click=Dialogs_State.setvar(dialog_to_open, False),
             ),
-            rx.button(
-                
-            )
-        )
+        ),
+        rx.form.submit(
+            rx.dialog.close(
+                rx.button(
+                    primary_button_text,
+                    on_click=Dialogs_State.setvar(dialog_to_open, resubmit_form)
+                ),
+            ),
+            as_child=True,
+        ),
+        padding_top="2em",
+        spacing="3",
+        mt="4",
+        justify="end",
     )
 
 
@@ -83,44 +98,28 @@ def _dialog_actions(
 
 
 def dialog_form(
-        header_config: dict,
-        
+        header: dict,
         form_to_use: rx.Component,
         on_submit: callable,
+        dialog_to_open: str,
         resubmit_form: bool,
-        dialog_to_open: str
+        primary_button_text: str,
+        secondary_button_text: str = "Listo",
     ) -> rx.Component:
     
     return rx.dialog.root(
         rx.dialog.content(
             _dialog_header(
-                **header_config
+                **header
             ),
             rx.flex(
                 rx.form.root(
                     form_to_use(),
-                    rx.flex(
-                        rx.dialog.close(
-                            rx.button(
-                                "Cancelar",
-                                variant="soft",
-                                color_scheme="gray",
-                                on_click=Dialogs_State.setvar(dialog_to_open, False),
-                            ),
-                        ),
-                        rx.form.submit(
-                            rx.dialog.close(
-                                rx.button(
-                                    "Agregar lote",
-                                    on_click=Dialogs_State.setvar(dialog_to_open, resubmit_form)
-                                ),
-                            ),
-                            as_child=True,
-                        ),
-                        padding_top="2em",
-                        spacing="3",
-                        mt="4",
-                        justify="end",
+                    _dialog_actions(
+                        dialog_to_open,
+                        resubmit_form,
+                        primary_button_text,
+                        secondary_button_text
                     ),
                     on_submit=on_submit,
                     reset_on_submit=resubmit_form,
