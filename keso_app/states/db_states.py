@@ -21,27 +21,11 @@ class _Data_Base(rx.State):
     def load_entries_from_db(self):
         pass
     
-    def add_entry_to_db(self, model_class, form_data: dict):
-
+    def add_entry_to_db(self, new_entry):
         with rx.session() as session:
-            # Crear una instancia del modelo con los datos del formulario
-            new_entry = model_class(**form_data)
-
-            # Manejar campos que no están en el formulario
-            if hasattr(new_entry, "created_by_user_id"):
-                new_entry.created_by_user_id = 12
-
-            if hasattr(new_entry, "last_updated_by_user_id"):
-                new_entry.last_updated_by_user_id = 12
-
-            if hasattr(new_entry, "milk_from_cow_id"):
-                new_entry.milk_from_cow_id = form_data.get("milk_from_cow_id", 12)
-
             session.add(new_entry)
             session.commit()
-
-            # Opcional: Actualizar la UI si es necesario
-            # yield
+            yield
 
     def edit_entry_in_db(self, model_class, form_data: dict):
         pass
@@ -51,22 +35,33 @@ class _Data_Base(rx.State):
     
 class Milk_Batches_DB(_Data_Base):
     
-    def handle_submit(
-            self,
-            form_data: dict
-        ):
+    def handle_submit(self, form_data: dict):
         
+        # Handle fields that are not in the database
         form_data.pop("cow_code", None)
+        
+        # Create a new entry
+        new_entry = Milk_Batches(**form_data)
 
-        # Convertir el campo milk_produced a tipo float
-        if "milk_produced" in form_data:
-            try:
-                form_data["milk_produced"] = float(form_data["milk_produced"])
-            except ValueError:
-                print("Error: 'milk_produced' debe ser un número.")
-                return
+        # Handle data that is not in the form
+        if hasattr(new_entry, "created_by_user_id"):
+            new_entry.created_by_user_id = 12
 
-        return self.add_entry_to_db(Milk_Batches, form_data)
+        if hasattr(new_entry, "last_updated_by_user_id"):
+            new_entry.last_updated_by_user_id = 12
+
+        if hasattr(new_entry, "milk_from_cow_id"):
+            new_entry.milk_from_cow_id = form_data.get("milk_from_cow_id", 12)
+        
+        # # Convert numeric fields to float
+        # if "milk_produced" in form_data:
+        #     try:
+        #         form_data["milk_produced"] = float(form_data["milk_produced"])
+        #     except ValueError:
+        #         rx.toast("Error: 'milk_produced' debe ser un número.")
+        #         form_data["milk_produced"] = None
+
+        return self.add_entry_to_db(new_entry)
         
         
     def handle_edit(self, entry_id: int):
