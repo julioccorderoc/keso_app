@@ -1,11 +1,11 @@
 import reflex as rx
 from .. import styles
 
+from ..components.navigation_menu import nav_menu
+from ..components.speed_dial import render_speed_dial
 from ..components import (
     dialog_form_milk_batch
 )
-from ..components.navigation_menu import nav_menu
-from ..components.speed_dial import render_speed_dial
 
 # Meta tags for the app.
 default_meta = [

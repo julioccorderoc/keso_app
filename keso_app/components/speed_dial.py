@@ -1,4 +1,5 @@
 import reflex as rx
+from ..states import Dialogs_State
 
 class SpeedDialMenu(rx.ComponentState):
     is_open: bool = False
@@ -9,7 +10,7 @@ class SpeedDialMenu(rx.ComponentState):
 
     @classmethod
     def get_component(cls, **props):
-        def menu_item(icon: str, text: str) -> rx.Component:
+        def menu_item(icon: str, text: str, dialog: str) -> rx.Component:
             return rx.hstack(
                 rx.icon(icon, padding="2px"),
                 rx.text(text, weight="medium"),
@@ -22,19 +23,20 @@ class SpeedDialMenu(rx.ComponentState):
                 },
                 width="100%",
                 align_items="center",
+                on_click=Dialogs_State.setvar(dialog, True)
             )
 
         def menu() -> rx.Component:
             return rx.box(
                 rx.card(
                     rx.vstack(
-                        menu_item("milk", "Leche"),
+                        menu_item("milk", "Leche", "milk_batch_is_open"),
                         rx.divider(margin="0"),
-                        menu_item("package-plus", "Queso"),
+                        menu_item("package-plus", "Queso", "milk_batch_is_open"),
                         rx.divider(margin="0"),
-                        menu_item("circle-plus", "Ventas"),
+                        menu_item("circle-plus", "Ventas", "milk_batch_is_open"),
                         rx.divider(margin="0"),
-                        menu_item("circle-minus", "Gastos"),
+                        menu_item("circle-minus", "Gastos", "milk_batch_is_open"),
                         direction="column-reverse",
                         align_items="end",
                         justify_content="end",
