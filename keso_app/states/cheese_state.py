@@ -57,14 +57,12 @@ ALLOWED_SORT_COLUMNS: set[str] = {
 class CheeseState(rx.State):
     """Manages the state for the cheese production CRUD interface."""
 
-    visible_columns: list[str] = cheese.VISIBLE_COLUMNS
-
-    # --- State Variables ---
+    # --- Data state ---
     current_page_data: list[CheeseProductionView] = []
+    visible_columns: list[str] = cheese.VISIBLE_COLUMNS
     selected_cheese: Optional[CheeseProductionView] = None
     show_modal: bool = False
-    is_loading: bool = True
-
+    
     # --- Filter state ---
     # Search
     search_query: str = ""
@@ -80,6 +78,12 @@ class CheeseState(rx.State):
     total_pages: int = 1
     items_per_page: int = 10
 
+    # Loading state
+    is_loading: bool = True
+    
+    @rx.var
+    def skeleton_range(self) -> list[int]:
+        return list(range(self.items_per_page))
 
     # --- Helpers ---
     def _build_base_query(
@@ -119,7 +123,7 @@ class CheeseState(rx.State):
         self, 
         paginate: bool = False, 
         fetch_count: bool = False
-    ) -> Optional[Any]:
+    ) -> Optional[Any]: # TODO: improve type hinting for response
         """
         Connects to database, builds the query, optionally applies 
         pagination and count, executes, and returns the raw response.
@@ -160,14 +164,14 @@ class CheeseState(rx.State):
     def _validate_data(
         self,
         raw_items: list[dict[str, Any]],
-        pydantic_model: Type[ModelType]
+        data_model: ModelType
     ) -> tuple[list[ModelType], int]:
         """
         Validates raw data against the provided Pydantic model.
 
         Args:
             raw_items: List of dictionaries from the database.
-            pydantic_model: The Pydantic model class to validate against.
+            data_model: The Pydantic model class to validate against.
 
         Returns:
             Tuple: (List of validated model objects, count of validation failures).
@@ -177,10 +181,10 @@ class CheeseState(rx.State):
         if not raw_items:
             return valid_data, invalid_count
 
-        model_name = pydantic_model.__name__
+        model_name = data_model.__name__
         for i, item in enumerate(raw_items):
             try:
-                validated_obj = pydantic_model.model_validate(item)
+                validated_obj = data_model.model_validate(item)
                 valid_data.append(validated_obj)
             except ValidationError as e:
                 invalid_count += 1
@@ -292,11 +296,12 @@ class CheeseState(rx.State):
             for event in events_to_yield:
                 yield event
 
-    async def set_items_per_page(self, items: int):
+    async def set_items_per_page(self, items: str):
         """Updates items per page, resets pagination, and fetches data."""
 
         original_items_per_page = self.items_per_page
         try:
+            items = int(items)
             if items < 1:
                 items = 1
             self.items_per_page = items
