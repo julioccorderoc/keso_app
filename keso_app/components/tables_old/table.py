@@ -82,7 +82,6 @@ def _pagination_controls(data_state: rx.state) -> rx.Component:
 
 def table_component(data_state: rx.state) -> rx.Component:
     return rx.vstack(
-        _pagination_controls(data_state),
         rx.table.root(
             _display_headers(data_state.headers),
             _display_body(data_state.current_page_data),
@@ -90,6 +89,7 @@ def table_component(data_state: rx.state) -> rx.Component:
             on_mount=data_state.load_entries,
             width="100%",
         ),
+        _pagination_controls(data_state),
         width="100%",
         padding="4",
     )
