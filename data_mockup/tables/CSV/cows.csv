@@ -1,8 +1,0 @@
-cow_id;cow_code;cow_origin;cow_age;total_births;total_milk
-222;CO22;Comprada;5;3;1500
-221;NA34;Nacida;3;1;800
-220;CO56;Comprada;7;4;2200
-219;NA78;Nacida;2;0;300
-218;CO90;Comprada;4;2;1200
-217;NA01;Nacida;6;3;1800
-216;CO23;Comprada;3;1;950
