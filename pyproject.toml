@@ -11,5 +11,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "dotenv>=0.9.9",
     "pandas>=2.2.3",
+    "supabase>=2.15.0",
 ]
