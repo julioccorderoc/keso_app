@@ -11,12 +11,12 @@ def _page_size_selector(on_change_action) -> rx.Component:
             rx.select.trigger(radius = "full", variant = "soft"),
             rx.select.content(
                 rx.select.group(
-                    rx.select.item("5", value = 5, disabled = False),
-                    rx.select.item("10", value = 10, disabled = False),
-                    rx.select.item("25", value = 25, disabled = False),
+                    rx.select.item("5", value = "5", disabled = False),
+                    rx.select.item("10", value = "10", disabled = False),
+                    rx.select.item("25", value = "25", disabled = False),
                 ),
             ),
-            default_value = 5,
+            default_value = "10",
             on_change = on_change_action,
             disabled = False,
         ),
@@ -63,10 +63,10 @@ def pagination(data_state) -> rx.Component:
                 on_click_action = data_state.go_to_last_page,
                 is_disabled = (data_state.current_page >= data_state.total_pages)
             ),
-            spacing = "1",
-            direction=["column", "row"],
-            justify="between",
-            align="center",
-            width="100%",
-        )
+            spacing = "2",
+        ),
+        # direction=["column", "row"], # TODO: make it responsive
+        justify="between",
+        align="center",
+        width="100%",
     )
