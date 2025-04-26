@@ -2,6 +2,7 @@ import reflex as rx
 from typing import Any
 
 from keso_app.components.table.pagination import pagination
+from keso_app.states.cheese_state import ModelType
 
 # TODO: type hints should match the state to be used, not be a generic state
 
@@ -11,6 +12,15 @@ table_style = {
 
 table_config = {
     
+}
+
+row_on_hover_style = {
+    "_hover": {
+        "background_color": "#f3f4f6",  # Tailwind's gray-100
+        "transition": "background-color 150ms",
+    },
+    "cursor": "pointer",
+    "transition": "background-color 150ms",
 }
 
 # Headers
@@ -38,15 +48,17 @@ def display_headers(headers: set[str]) -> rx.Component:
 def _create_cell(cell_value: Any) -> rx.Component:
     return rx.table.cell(cell_value)  
 
-def _create_row(row_dict) -> rx.Component: # TODO: validate if this is a dict
+def _create_row(row_data: ModelType) -> rx.Component:
     return rx.table.row(
         rx.foreach(
-            row_dict.values(),
+            row_data.model_dump().values(),
             _create_cell
-        )
+        ),
+        style = row_on_hover_style,
+        # on_click = .select_db_entry(row_data)
     )
 
-def display_body(rows: list[dict]) -> rx.Component:
+def display_body(rows: list[ModelType]) -> rx.Component:
     return rx.table.body(
         rx.foreach(
             rows,
