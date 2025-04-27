@@ -28,7 +28,7 @@ COL_LITERS_RATIO = "liters_per_kilo"
 COL_SALT_RATIO = "salt_per_liter"
 COL_COMMENTS = "comments"
 
-VISIBLE_COLUMNS: set[str] = {
+VISIBLE_COLUMNS: list[str] = {
     cheese.COL_NAMES.BATCH_DATE,
     cheese.COL_NAMES.KILOS,
     cheese.COL_NAMES.LITERS_RATIO,
@@ -44,7 +44,7 @@ FILTER_CONFIG: dict[str, dict[str, str]] = {
 
 DEFAULT_SORT_COLUMN = cheese.COL_NAMES.BATCH_DATE
 
-ALLOWED_SORT_COLUMNS: set[str] = {
+ALLOWED_SORT_COLUMNS: list[str] = {
     cheese.COL_NAMES.BATCH_DATE,
     cheese.COL_NAMES.KILOS,
     cheese.COL_NAMES.LITERS_RATIO,
@@ -58,7 +58,7 @@ class CheeseState(rx.State):
     """Manages the state for the cheese production CRUD interface."""
 
     # --- Data state ---
-    current_page_data: list[CheeseProductionView] = []
+    current_page_data: list[dict] = []
     visible_columns: list[str] = cheese.VISIBLE_COLUMNS
     selected_cheese: Optional[CheeseProductionView] = None
     show_modal: bool = False
@@ -201,7 +201,7 @@ class CheeseState(rx.State):
     async def fetch_data(self):
         """Fetches paginated data, validates and updates state."""
 
-        processed_data: list[CheeseProductionView] = []
+        processed_data: list[ModelType] = []
         invalid_count: int = 0
         total_db_count: int = 0
         events_to_yield = []
@@ -222,7 +222,7 @@ class CheeseState(rx.State):
             processed_data, invalid_count = self._validate_data(raw_items, CheeseProductionView)
 
             async with self:
-                self.current_page_data = processed_data
+                self.current_page_data = [item.model_dump() for item in processed_data] # TODO: try to send original model
                 self.total_pages = (total_db_count + self.items_per_page - 1) // self.items_per_page
                 if self.total_pages == 0: self.total_pages = 1
                 logging.info(f"State updated. Displaying: {len(self.current_page_data)}, Total Pages: {self.total_pages}")
@@ -246,10 +246,10 @@ class CheeseState(rx.State):
                 yield event
 
     @rx.event(background=True)
-    async def download_csv(self):
+    async def download_csv(self, data_model: Type[ModelType]):
         """Generates and downloads a CSV of VALID filtered/sorted data."""
 
-        validated_data: list[CheeseProductionView] = []
+        validated_data: list[ModelType] = []
         invalid_count: int = 0
         events_to_yield = []
 
@@ -261,10 +261,10 @@ class CheeseState(rx.State):
                 return
 
             raw_items = response.data or []
-            validated_data, invalid_count = self._validate_data(raw_items, CheeseProductionView)
+            validated_data, invalid_count = self._validate_data(raw_items, data_model)
 
             output = io.StringIO()
-            headers = list(CheeseProductionView.model_fields.keys())
+            headers = list(data_model.model_fields.keys())
             writer = csv.DictWriter(output, fieldnames=headers, quoting=csv.QUOTE_MINIMAL)
             writer.writeheader()
 
@@ -417,7 +417,7 @@ class CheeseState(rx.State):
         if not self.show_modal:
             self.selected_cheese = None
 
-    def select_db_entry(self, cheese: CheeseProductionView):
+    def select_db_entry(self, cheese: ModelType):
         self.selected_cheese = cheese
         return CheeseState.toggle_modal
 

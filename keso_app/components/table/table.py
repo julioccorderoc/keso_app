@@ -2,7 +2,7 @@ import reflex as rx
 from typing import Any
 
 from keso_app.components.table.pagination import pagination
-from keso_app.states.cheese_state import ModelType
+# from keso_app.states.cheese_state import ModelType, CheeseBase
 
 # TODO: type hints should match the state to be used, not be a generic state
 
@@ -34,7 +34,7 @@ def _create_header(header: str) -> rx.Component:
         )
     )
 
-def display_headers(headers: set[str]) -> rx.Component:
+def display_headers(headers: list[str]) -> rx.Component:
     return rx.table.header(
         rx.table.row(
             rx.foreach(
@@ -48,56 +48,53 @@ def display_headers(headers: set[str]) -> rx.Component:
 def _create_cell(cell_value: Any) -> rx.Component:
     return rx.table.cell(cell_value)  
 
-def _create_row(row_data: ModelType) -> rx.Component:
+def _create_row(row_data: dict) -> rx.Component:
+    # fields = list(row_data.__dict__.values())
     return rx.table.row(
         rx.foreach(
-            row_data.model_dump().values(),
+            row_data.values(),
             _create_cell
         ),
-        style = row_on_hover_style,
+        # style = row_on_hover_style,
         # on_click = .select_db_entry(row_data)
     )
 
-def display_body(rows: list[ModelType]) -> rx.Component:
+def display_body(rows: list[dict]) -> rx.Component:
     return rx.table.body(
         rx.foreach(
             rows,
             _create_row
         ),
-    ),
-
-# Skeleton for loading state
-def skeleton_cell():
-    return rx.table.cell(
-        rx.skeleton(
-            rx.text("Loading...")
-        )
     )
 
-def skeleton_row(data_state) -> rx.Component:
-    return rx.table.row(
-        rx.foreach(
-            data_state.headers,
-            skeleton_cell
-        )
-    )
+# # Skeleton for loading state
+# def skeleton_cell(_: rx.Var) -> rx.Component:
+#     return rx.table.cell(
+#         rx.skeleton(
+#             rx.spinner()
+#         )
+#     )
 
-def display_skeleton_body(data_state) -> rx.Component:
-    return rx.foreach(
-        range(data_state.items_per_page),
-        skeleton_row(data_state)
-    )
+# def skeleton_row(data_state) -> rx.Component:
+#     return rx.table.row(
+#         rx.foreach(
+#             data_state.visible_columns,
+#             lambda col: skeleton_cell(col)
+#         )
+#     )
+
+# def display_skeleton_body(data_state) -> rx.Component:
+#     return rx.foreach(
+#         data_state.skeleton_range,
+#         skeleton_row(data_state)
+#     )
 
 
 def table_component(data_state) -> rx.Component:
     return rx.vstack(
         rx.table.root(
-            display_headers(data_state.headers),
-            rx.cond(
-                data_state.is_loading,
-                display_skeleton_body(data_state),
-                display_body(data_state.current_page_data),
-            ),
+            display_headers(data_state.visible_columns),
+            display_body(data_state.current_page_data), # add loading logic
             variant="surface",
             on_mount=data_state.fetch_data,
             width="100%",
