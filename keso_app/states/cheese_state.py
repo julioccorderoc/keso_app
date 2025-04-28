@@ -10,56 +10,29 @@ from supabase import Client
 from keso_app.models.tables import CheeseProductionView
 from keso_app.states.db_client import get_db_client
 from keso_app.constants.shared import NO_FILTER_VALUE, MAX_SEARCH_LENGTH
-import keso_app.constants.cheese as cheese
-
-
+from keso_app.constants.cheese import CHEESE_CONSTANTS
 
 ModelType = TypeVar('ModelType', bound=BaseModel)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(funcName)s | %(message)s')
 
-# --- Constants ---
-DATA_SOURCE = "vw_cheese_production"
-
-COL_BATCH_ID = "batch_id"
-COL_BATCH_DATE = "batch_date"
-COL_KILOS = "kilos_of_cheese"
-COL_LITERS_RATIO = "liters_per_kilo"
-COL_SALT_RATIO = "salt_per_liter"
-COL_COMMENTS = "comments"
-
-VISIBLE_COLUMNS: list[str] = {
-    cheese.COL_NAMES.BATCH_DATE,
-    cheese.COL_NAMES.KILOS,
-    cheese.COL_NAMES.LITERS_RATIO,
-    cheese.COL_NAMES.SALT_RATIO,
-    cheese.COL_NAMES.COMMENTS
-}
-
-SEARCHABLE_COLUMNS: list[str] = [cheese.COL_NAMES.COMMENTS]
-
-FILTER_CONFIG: dict[str, dict[str, str]] = {
-    cheese.COL_NAMES.COMMENTS: cheese.FILTER_COMMENTS_OPTIONS
-}
-
-DEFAULT_SORT_COLUMN = cheese.COL_NAMES.BATCH_DATE
-
-ALLOWED_SORT_COLUMNS: list[str] = {
-    cheese.COL_NAMES.BATCH_DATE,
-    cheese.COL_NAMES.KILOS,
-    cheese.COL_NAMES.LITERS_RATIO,
-    cheese.COL_NAMES.SALT_RATIO,
-    cheese.COL_NAMES.COMMENTS
-}
-
-
+# TODO: add a remove_all_filters method
 
 class CheeseState(rx.State):
     """Manages the state for the cheese production CRUD interface."""
 
     # --- Data state ---
+    data_config = CHEESE_CONSTANTS
     current_page_data: list[dict] = []
-    visible_columns: list[str] = cheese.VISIBLE_COLUMNS
+    visible_columns: list[tuple[str, str]] = data_config.visible_columns
+    sortable_columns: list[tuple[str, str]] = data_config.sortable_columns
+    searchable_columns: list[str] = data_config.searchable_columns
+    filters_for_ui: list[tuple[str, list[tuple[str, str]]]] = [
+        (column, list(options.items())) for column, options in data_config.filters_for_ui.items()
+    ]
+    default_sort_column: str = data_config.default_sort_column
+    
+    # --- Modal state ---
     selected_cheese: Optional[CheeseProductionView] = None
     show_modal: bool = False
     
@@ -67,11 +40,11 @@ class CheeseState(rx.State):
     # Search
     search_query: str = ""
     # Sort
-    sort_column: str = DEFAULT_SORT_COLUMN
+    sort_column: str = data_config.default_sort_column
     is_sort_ascending: bool = False
     # Category Filter
     selected_cheese_type: str = "NA"
-    active_category_filters: dict[str, str] = {}
+    active_category_filters: dict[str, str] = {} # key: column name, value: selected value
 
     # Pagination State
     current_page: int = 1
@@ -80,10 +53,6 @@ class CheeseState(rx.State):
 
     # Loading state
     is_loading: bool = True
-    
-    @rx.var
-    def skeleton_range(self) -> list[int]:
-        return list(range(self.items_per_page))
 
     # --- Helpers ---
     def _build_base_query(
@@ -94,25 +63,23 @@ class CheeseState(rx.State):
     ):
         """Builds the base Supabase query object with filtering and sorting."""
         
-        query = client.table(DATA_SOURCE).select(select_columns, count=count)
+        query = client.table(self.data_config.table_name).select(select_columns, count=count)
 
         # Apply search filtering
         if self.search_query:
             search_term = f"%{self.search_query}%"
             or_conditions = ",".join([
-                f"{col}.ilike.{search_term}" for col in SEARCHABLE_COLUMNS
+                f"{col}.ilike.{search_term}" for col in self.data_config.searchable_columns
             ])
             query = query.or_(or_conditions)
-            logging.info(f"Applying search filter across {SEARCHABLE_COLUMNS}: '{search_term}'")
 
         # Apply category filtering
         if self.active_category_filters:
-            logging.info(f"Applying category filters: {self.active_category_filters}")
             for column, value in self.active_category_filters.items():
                 query = query.eq(column, value)
 
         # Apply sorting
-        if self.sort_column in ALLOWED_SORT_COLUMNS:
+        if self.sort_column in self.data_config.sortable_columns:
              query = query.order(
                  self.sort_column, desc=not self.is_sort_ascending
              )
@@ -164,7 +131,7 @@ class CheeseState(rx.State):
     def _validate_data(
         self,
         raw_items: list[dict[str, Any]],
-        data_model: ModelType
+        data_model: Type[ModelType]
     ) -> tuple[list[ModelType], int]:
         """
         Validates raw data against the provided Pydantic model.
@@ -246,7 +213,7 @@ class CheeseState(rx.State):
                 yield event
 
     @rx.event(background=True)
-    async def download_csv(self, data_model: Type[ModelType]):
+    async def download_csv(self):
         """Generates and downloads a CSV of VALID filtered/sorted data."""
 
         validated_data: list[ModelType] = []
@@ -261,10 +228,10 @@ class CheeseState(rx.State):
                 return
 
             raw_items = response.data or []
-            validated_data, invalid_count = self._validate_data(raw_items, data_model)
+            validated_data, invalid_count = self._validate_data(raw_items, CheeseProductionView)
 
             output = io.StringIO()
-            headers = list(data_model.model_fields.keys())
+            headers = list(CheeseProductionView.model_fields.keys())
             writer = csv.DictWriter(output, fieldnames=headers, quoting=csv.QUOTE_MINIMAL)
             writer.writeheader()
 
@@ -325,7 +292,7 @@ class CheeseState(rx.State):
     async def handle_sort_column(self, column: str):
         """Sets the column to sort by, from the dropdown."""
 
-        if column not in VISIBLE_COLUMNS:
+        if column not in self.data_config.sortable_columns:
             return
         if self.sort_column == column:
             return
@@ -352,7 +319,7 @@ class CheeseState(rx.State):
         self.current_page = 1
         yield CheeseState.fetch_data()
     
-    async def handle_category_filter_change(self, column_to_filter: str, selected_value: str):
+    async def handle_category_filter(self, column_to_filter: str, selected_value: str):
         """
         Updates the active_category_filters attribute based on user's input.
 
@@ -361,13 +328,13 @@ class CheeseState(rx.State):
             selected_value: The value selected to filter on.
         """
         
-        if column_to_filter not in FILTER_CONFIG:
+        if column_to_filter not in self.data_config.filters_for_ui:
             return
 
         filters_changed = False
         current_filter_value = self.active_category_filters.get(column_to_filter)
 
-        if not selected_value or selected_value == NO_FILTER_VALUE:
+        if selected_value == NO_FILTER_VALUE: # TODO: consider removing filter if the same value is selected
             if column_to_filter in self.active_category_filters:
                 del self.active_category_filters[column_to_filter]
                 filters_changed = True
@@ -417,7 +384,20 @@ class CheeseState(rx.State):
         if not self.show_modal:
             self.selected_cheese = None
 
-    def select_db_entry(self, cheese: ModelType):
-        self.selected_cheese = cheese
+    def select_db_entry(self, db_entry: dict[str, Any]):
+        
+        valid_data: ModelType
+        try:
+            valid_data = CheeseProductionView.model_validate(db_entry)
+        except ValidationError as e:
+            rx.toast.error(f"Validation failed.")
+            logging.error(f"Validation error: {e}")
+            return
+        except Exception as e:
+            rx.toast.error("Unexpected error. Check terminal for details.")
+            logging.error(f"Unexpected error: {e}")
+            return
+        
+        self.selected_cheese = valid_data
         return CheeseState.toggle_modal
 
