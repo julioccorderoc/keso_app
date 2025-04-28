@@ -1,5 +1,5 @@
 from .dialogs.forms import dialog_form_milk_batch
-from .tables.table import table_component
+from .table.table import table_component
 
 
 __all__ = [
