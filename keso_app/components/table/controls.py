@@ -2,6 +2,12 @@ import reflex as rx
 
 from keso_app.constants.shared import NO_FILTER_LABEL, NO_FILTER_VALUE
 
+def _action_button(data_state) -> rx.Component:
+    return rx.button(
+        rx.text("Actions"),
+        # on_click = data_state.toggle_actions
+    )
+
 def _sort_control(data_state) -> rx.Component:
     return rx.hstack(
         rx.button( # icon size 20
@@ -23,6 +29,36 @@ def _sort_control(data_state) -> rx.Component:
         spacing = "2",
     )
 
+# TODO: final design will be the internal dropdown with the name and a badge with the option selected
+# it'll allow to select multiple options (in that case the badge will show the number of selected options)
+def _column_filter(data_state, column_to_filter) -> rx.Component:
+    column_name = column_to_filter[0]
+    filter_options = column_to_filter[1]
+    return rx.select.root(
+        rx.select.trigger(placeholder = column_name, radius = "full", variant = "soft"),
+        rx.select.content(
+            rx.foreach(
+                filter_options,
+                lambda option: rx.select.item(option[0], value=option[1])
+            )
+        ),
+        value = data_state.active_category_filters.get(column_name, NO_FILTER_VALUE),
+        on_change = lambda selected_value: data_state.handle_category_filter(column_name, selected_value),
+    )
+
+def _columns_filter(data_state) -> rx.Component:
+    return rx.menu.root(
+        rx.menu.trigger(rx.text("Filters"), radius = "full", variant = "soft"),
+        rx.menu.content(
+            rx.foreach(
+                data_state.filters_for_ui,
+                lambda column: rx.menu.item(
+                    _column_filter(data_state, column)
+                )
+            )
+        )
+    )
+
 def _search_filter(data_state) -> rx.Component:
     return rx.input(
         rx.input.slot(
@@ -31,18 +67,6 @@ def _search_filter(data_state) -> rx.Component:
         placeholder="Search here...",
         on_change = data_state.handle_search_query.debounce(500),
     )
-
-def _category_filter(data_state, data_constant, column_to_filter) -> rx.Component:
-    return rx.select.root(
-        rx.select.trigger(placeholder=NO_FILTER_LABEL, radius = "full", variant = "soft"),
-        rx.select.content(
-            rx.select.group(
-                *[rx.select.item(label, value=value) for label, value in data_constant.get(column_to_filter).items()]
-            ),
-        ),
-        value = data_state.active_category_filters.get(column_to_filter, NO_FILTER_VALUE),
-        on_change = lambda selected_val: data_state.handle_category_filter_change(column_to_filter, selected_val),
-    ),
 
 def _export_button(data_state) -> rx.Component:
     return rx.button(
@@ -53,5 +77,13 @@ def _export_button(data_state) -> rx.Component:
     )
 
 # TODO: replace category filter with a filter dropdown component
-def table_controls(data_state, data_constant) -> rx.Component:
-    return rx.flex()
+def table_controls(data_state) -> rx.Component:
+    return rx.flex(
+        _action_button(data_state), # conditionally, depending on the data
+        _sort_control(data_state), # conditionally, depending on the data
+        _columns_filter(data_state), # conditionally, depending on the data
+        rx.hstack(
+            _search_filter(data_state), # conditionally, depending on the data
+            _export_button(data_state),
+        ),
+    )
