@@ -4,7 +4,7 @@ from typing import Any # TODO: remove
 # TODO: disable and enable based on the number of available entries and LOADING
 
 
-def _page_size_selector(on_change_action) -> rx.Component:
+def _page_size_selector(data_state) -> rx.Component:
     return rx.flex(
         rx.text("Rows per page: "),
         rx.select.root(
@@ -16,8 +16,8 @@ def _page_size_selector(on_change_action) -> rx.Component:
                     rx.select.item("25", value = "25", disabled = False),
                 ),
             ),
-            default_value = "10",
-            on_change = on_change_action,
+            default_value = str(data_state.items_per_page),
+            on_change = data_state.set_items_per_page,
             disabled = False,
         ),
         spacing = "2",
@@ -27,6 +27,8 @@ def _pagination_button(icon: str, on_click_action: Any, is_disabled: bool) -> rx
     return rx.button(
         rx.icon(icon),
         radius = "full",
+        variant = "surface",
+        size = "1",
         on_click = on_click_action,
         disabled = is_disabled,
     )
@@ -40,7 +42,7 @@ def _pagination_status(data_state) -> rx.Component:
 
 def pagination(data_state) -> rx.Component:
     return rx.flex(
-        _page_size_selector(data_state.set_items_per_page),
+        _page_size_selector(data_state),
         _pagination_status(data_state),
         rx.hstack(
             _pagination_button(
