@@ -57,17 +57,16 @@ class TableConstants(rx.Base):
         return columns
 
     @property
-    def filters_for_ui(self) -> dict[str, dict[str, str]]:
+    def filters_for_ui(self) -> list[tuple[str, list[tuple[str, str]]]]:
         """
-        Get a dictionary of filters for UI generation.
-        Key: column name, Value: {label:value}
+        Get a list of filters for UI generation.
+        Each item is a tuple: (column name, [(label, value), ...])
         """
-        filters: dict[str, dict[str, str]] = {
-            col_enum: config.filter_options
-            for col_enum, config in self.column_config.items()
+        return [
+            (column_name, list(config.filter_options.items()))
+            for column_name, config in self.column_config.items()
             if config.filterable and config.filter_options is not None
-        }
-        return filters
+        ]
     
     @property
     def default_sort_column(self) -> str:

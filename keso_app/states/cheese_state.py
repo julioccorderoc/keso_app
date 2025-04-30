@@ -27,9 +27,7 @@ class CheeseState(rx.State):
     visible_columns: list[tuple[str, str]] = data_config.visible_columns
     sortable_columns: list[tuple[str, str]] = data_config.sortable_columns
     searchable_columns: list[str] = data_config.searchable_columns
-    filters_for_ui: list[tuple[str, list[tuple[str, str]]]] = [
-        (column, list(options.items())) for column, options in data_config.filters_for_ui.items()
-    ]
+    filters_for_ui: list[tuple[str, list[tuple[str, str]]]] = data_config.filters_for_ui
     default_sort_column: str = data_config.default_sort_column
     
     # --- Modal state ---
@@ -40,7 +38,7 @@ class CheeseState(rx.State):
     # Search
     search_query: str = ""
     # Sort
-    sort_column: str = data_config.default_sort_column
+    column_sorted: str = data_config.default_sort_column
     is_sort_ascending: bool = False
     # Category Filter
     selected_cheese_type: str = "NA"
@@ -69,7 +67,7 @@ class CheeseState(rx.State):
         if self.search_query:
             search_term = f"%{self.search_query}%"
             or_conditions = ",".join([
-                f"{col}.ilike.{search_term}" for col in self.data_config.searchable_columns
+                f"{col}.ilike.{search_term}" for col in self.searchable_columns
             ])
             query = query.or_(or_conditions)
 
@@ -79,9 +77,10 @@ class CheeseState(rx.State):
                 query = query.eq(column, value)
 
         # Apply sorting
-        if self.sort_column in self.data_config.sortable_columns:
+        valid_values = [col[0] for col in self.sortable_columns]
+        if self.column_sorted in valid_values:
              query = query.order(
-                 self.sort_column, desc=not self.is_sort_ascending
+                 self.column_sorted, desc=not self.is_sort_ascending
              )
 
         return query
@@ -291,14 +290,17 @@ class CheeseState(rx.State):
     
     async def handle_sort_column(self, column: str):
         """Sets the column to sort by, from the dropdown."""
-
-        if column not in self.data_config.sortable_columns:
+        
+        valid_values = [col[0] for col in self.sortable_columns]
+        if column not in valid_values:
+            logging.error(f"Invalid column: {column}")
             return
-        if self.sort_column == column:
+        if self.column_sorted == column:
+            logging.error(f"Same column: {column}")
             return
 
-        self.sort_column = column
-        # self.is_sort_ascending = False # Uncomment to always default to DESC on column change
+        self.column_sorted = column
+        self.is_sort_ascending = False
         self.current_page
         yield CheeseState.fetch_data()
     
@@ -327,11 +329,10 @@ class CheeseState(rx.State):
             column_to_filter: The column name to filter on.
             selected_value: The value selected to filter on.
         """
-        
-        if column_to_filter not in self.data_config.filters_for_ui:
+        if not any(column == column_to_filter for column, _ in self.filters_for_ui):
             return
 
-        filters_changed = False
+        filters_changed: bool = False
         current_filter_value = self.active_category_filters.get(column_to_filter)
 
         if selected_value == NO_FILTER_VALUE: # TODO: consider removing filter if the same value is selected
