@@ -74,7 +74,13 @@ def _select_column_to_filter(data_state, column_to_filter) -> rx.Component:
 
 def _menu_columns_to_filter(data_state) -> rx.Component:
     return rx.menu.root(
-        rx.menu.trigger(rx.text("Filters"), radius = "large", variant = "surface"),
+        rx.menu.trigger(
+            rx.button(
+                "Filters", 
+                radius = "large", 
+                variant = "outline"
+            ),
+        ),
         rx.menu.content(
             rx.foreach(
                 data_state.filters_for_ui,
