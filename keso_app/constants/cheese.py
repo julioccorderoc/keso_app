@@ -1,5 +1,3 @@
-from enum import StrEnum
-
 from keso_app.constants.shared import NO_FILTER_LABEL, NO_FILTER_VALUE, ColumnConfig, TableConstants
 
 
