@@ -1,5 +1,5 @@
 import reflex as rx
-from typing import Any, Callable
+from typing import Callable # TODO: add proper annotation
 
 from keso_app.constants.shared import PAGE_SIZE_OPTIONS
 
@@ -71,7 +71,7 @@ def pagination(data_state) -> rx.Component:
             spacing = "2",
         ),
         # direction=["column", "row"], # TODO: make it responsive
-        justify="between",
-        align="center",
-        width="100%",
+        justify = "between",
+        align = "center",
+        width = "100%",
     )
