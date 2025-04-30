@@ -2,6 +2,7 @@ import reflex as rx
 from typing import Any
 
 # TODO: type hints should match the state to be used, not be a generic state
+# TODO: skeleton before the data is loaded (the first time)
 
 table_style = {
     
@@ -13,7 +14,7 @@ table_config = {
 
 row_on_hover_style = {
     "_hover": {
-        "background_color": "#f3f4f6",  # Tailwind's gray-100
+        "background_color": rx.color("gray", 3),
         "transition": "background-color 150ms",
     },
     "cursor": "pointer",
@@ -22,11 +23,11 @@ row_on_hover_style = {
 
 # Headers
 def _create_header(header: tuple[str, str]) -> rx.Component:
-    label = header[1]
+    header_label = header[1]
     return rx.table.column_header_cell(
         rx.hstack(
             # rx.icon(icon, size=18),
-            rx.text(label),
+            rx.text(header_label),
             align="center",
             spacing="2",
         )
@@ -54,8 +55,8 @@ def _create_cell(data_state, value: Any) -> rx.Component:
     )
 
 def _get_visible_cell(column: tuple[str, str], row_data: dict) -> Any:
-    value = column[0]
-    return row_data[value]
+    field_name = column[0] # field name from the database
+    return row_data[field_name]
 
 def _create_row(data_state, row_data: dict) -> rx.Component:
     return rx.table.row(
@@ -69,14 +70,7 @@ def _create_row(data_state, row_data: dict) -> rx.Component:
                 )
             )
         ),
-        style = {
-            "_hover": {
-                "background_color": "#f3f4f6",  # Tailwind's gray-100
-                "transition": "background-color 150ms",
-            },
-            "cursor": "pointer",
-            "transition": "background-color 150ms",
-        },
+        style = row_on_hover_style,
         on_click = data_state.select_db_entry(row_data)
     )
 
