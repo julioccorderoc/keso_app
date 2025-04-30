@@ -1,7 +1,8 @@
 from enum import StrEnum
 
 from keso_app.constants.shared import NO_FILTER_LABEL, NO_FILTER_VALUE, ColumnConfig, TableConstants
-# from shared import NO_FILTER_LABEL, NO_FILTER_VALUE, ColumnConfig, TableConstants
+
+
 TABLE_NAME = "vw_cheese_production"
 
 FILTER_COMMENTS_OPTIONS = {
@@ -9,69 +10,6 @@ FILTER_COMMENTS_OPTIONS = {
     "Llanero": "llanero",
     "Guayanes": "guayanes",
     "Telita": "telita" 
-}
-
-COLUMN_CONFIG_OLD: dict[str, ColumnConfig] = {
-    "batch_id": {
-        "label": "Batch ID",
-        "tag": "ID",
-        "default_sort": False,
-        "visible": False,
-        "sortable": False,
-        "filterable": False,
-        "searchable": False,
-        "filter_options": None,
-    },
-    "batch_date": {
-        "label": "Batch Date",
-        "tag": "Date",
-        "default_sort": True,
-        "visible": True,
-        "sortable": True,
-        "filterable": False,
-        "searchable": False,
-        "filter_options": None,
-    },
-    "kilos_of_cheese": {
-        "label": "Cheese (kg)",
-        "tag": "Cheese",
-        "default_sort": False,
-        "visible": True,
-        "sortable": True,
-        "filterable": False,
-        "searchable": False,
-        "filter_options": None,
-    },
-    "liters_per_kilo": {
-        "label": "Milk/Cheese Ratio (L/Kg)",
-        "tag": "Milk/Cheese",
-        "default_sort": False,
-        "visible": True,
-        "sortable": True,
-        "filterable": False,
-        "searchable": False,
-        "filter_options": None,
-    },
-    "salt_per_liter": {
-        "label": "Salt/Milk Ratio (Kg/L)",
-        "tag": "Salt/Milk",
-        "default_sort": False,
-        "visible": True,
-        "sortable": True,
-        "filterable": False,
-        "searchable": False,
-        "filter_options": None,
-    },
-    "comments": {
-        "label": "Comments",
-        "tag": "Comments",
-        "default_sort": False,
-        "visible": True,
-        "sortable": True,
-        "filterable": True,
-        "searchable": True,
-        "filter_options": FILTER_COMMENTS_OPTIONS,
-    },
 }
 
 COLUMN_CONFIG: dict[str, ColumnConfig] = {
@@ -142,13 +80,6 @@ CHEESE_CONSTANTS = TableConstants(
     column_config = COLUMN_CONFIG
 )
 
-class COL_NAMES(StrEnum):
-    BATCH_ID = "batch_id"
-    BATCH_DATE = "batch_date"
-    KILOS = "kilos_of_cheese"
-    LITERS_RATIO = "liters_per_kilo"
-    SALT_RATIO = "salt_per_liter"
-    COMMENTS = "comments"
 
 if __name__ == "__main__":
     print(f"\nVisible columns: \n{CHEESE_CONSTANTS.visible_columns}\n\n")
