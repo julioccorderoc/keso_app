@@ -7,6 +7,8 @@ NO_FILTER_VALUE = "NA"
 # Lenght of the search queries
 MAX_SEARCH_LENGTH = 100
 
+PAGE_SIZE_OPTIONS: list[tuple[str, str]] = [("5", "5"), ("10", "10"), ("25", "25")]
+
 class ColumnConfig(rx.Base):
     """Represents a single column configuration."""
     label: str
